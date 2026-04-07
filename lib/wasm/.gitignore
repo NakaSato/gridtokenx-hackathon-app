@@ -1,0 +1,7 @@
+# Track necessary WASM build artifacts
+!gridtokenx_wasm.js
+!gridtokenx_wasm_bg.wasm
+!gridtokenx_wasm.d.ts
+!gridtokenx_wasm_bg.wasm.d.ts
+!package.json
+!README.md

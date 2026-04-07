@@ -1,0 +1,17 @@
+{
+  "campus": {
+    "name": "UTCC Smart Grid",
+    "fullName": "University of the Thai Chamber of Commerce",
+    "description": "Real-time energy distribution across University of the Thai Chamber of Commerce campus",
+    "center": {
+      "longitude": 100.56023705120911,
+      "latitude": 13.780157318353783
+    },
+    "defaultZoom": 15,
+    "totalCapacity": "2950 kWh",
+    "operationalSince": "2024",
+    "efficiency": "94.5%"
+  },
+  "energyNodes": [],
+  "energyTransfers": []
+}

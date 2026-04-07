@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-03-28T01:50:11.738Z",
+  "algorithm": "K-Means Style Clustering",
+  "testResults": [
+    {
+      "passed": true,
+      "testCase": "Solar Enthusiast Profile",
+      "expected": "solar_enthusiast",
+      "actual": "solar_enthusiast",
+      "distance": 0,
+      "computationTime": 0
+    },
+    {
+      "passed": true,
+      "testCase": "Night Owl Profile",
+      "expected": "night_owl",
+      "actual": "night_owl",
+      "distance": 0,
+      "computationTime": 0
+    },
+    {
+      "passed": true,
+      "testCase": "Energy Saver Profile",
+      "expected": "energy_saver",
+      "actual": "energy_saver",
+      "distance": 0,
+      "computationTime": 0
+    },
+    {
+      "passed": true,
+      "testCase": "Home Worker Profile",
+      "expected": "home_worker",
+      "actual": "home_worker",
+      "distance": 0,
+      "computationTime": 0
+    },
+    {
+      "passed": true,
+      "testCase": "Industrial User Profile",
+      "expected": "industrial",
+      "actual": "industrial",
+      "distance": 0,
+      "computationTime": 0
+    },
+    {
+      "passed": true,
+      "testCase": "Edge Case - Perfect Balance",
+      "expected": "energy_saver",
+      "actual": "energy_saver",
+      "distance": 0.050000000000000044,
+      "computationTime": 0
+    },
+    {
+      "passed": false,
+      "testCase": "Edge Case - Extreme Peak",
+      "expected": "solar_enthusiast",
+      "actual": "industrial",
+      "distance": 0.36055512754639896,
+      "computationTime": 0
+    },
+    {
+      "passed": true,
+      "testCase": "Edge Case - Night Industrial",
+      "expected": "night_owl",
+      "actual": "night_owl",
+      "distance": 0.24999999999999994,
+      "computationTime": 0
+    }
+  ],
+  "performance": {
+    "totalTime": 3,
+    "opsPerSec": 3333333.3333333335,
+    "avgTimePerOp": 0.0003
+  },
+  "summary": {
+    "total": 8,
+    "passed": 7,
+    "failed": 1,
+    "passRate": "87.5"
+  }
+}

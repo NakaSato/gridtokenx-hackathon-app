@@ -1,0 +1,76 @@
+name: Bundle Size Check
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  bundle-size:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build application
+        run: bun run build
+
+      - name: Check bundle size
+        run: bun run check:bundle
+        continue-on-error: true # Warn but don't fail on first run
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bundle-analysis
+          path: .next/analyze/
+          retention-days: 7
+
+      - name: Comment PR with bundle size
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Read build manifest
+            const manifestPath = '.next/build-manifest.json';
+            if (fs.existsSync(manifestPath)) {
+              const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+              
+              let totalSize = 0;
+              let fileCount = 0;
+              
+              if (manifest.pages) {
+                for (const files of Object.values(manifest.pages)) {
+                  for (const file of files) {
+                    const filePath = path.join('.next', file);
+                    if (fs.existsSync(filePath)) {
+                      totalSize += fs.statSync(filePath).size;
+                      fileCount++;
+                    }
+                  }
+                }
+              }
+              
+              const sizeMB = (totalSize / 1024 / 1024).toFixed(2);
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 📊 Bundle Size Report\n\n- **Total bundle size**: ${sizeMB}MB\n- **Files analyzed**: ${fileCount}\n- **Status**: ${sizeMB < 3 ? '✅ Pass' : '⚠️ Warning'}\n\n<details>\n<summary>View detailed analysis</summary>\n\nRun \`bun run analyze\` locally to see interactive treemap.\n</details>`
+              });
+            }

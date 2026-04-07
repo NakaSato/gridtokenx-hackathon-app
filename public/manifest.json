@@ -1,0 +1,21 @@
+{
+  "name": "GridTokenX Trading",
+  "short_name": "GridTokenX",
+  "description": "Confidential Energy Trading & Settlement",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00d1ff",
+  "icons": [
+    {
+      "src": "/images/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,1483 @@
+{
+  "address": "B7Detx5TMRQNzVCgdd9Rp5YnN9cAtC7KeMBrzdZZsd4E",
+  "metadata": {
+    "name": "blockbench",
+    "version": "0.1.1",
+    "spec": "0.1.0",
+    "description": "BLOCKBENCH Micro-benchmarks for Solana/Anchor - Consensus, Execution, and Storage Layer Testing"
+  },
+  "instructions": [
+    {
+      "name": "analytics_aggregate",
+      "discriminator": [
+        134,
+        170,
+        70,
+        136,
+        17,
+        216,
+        157,
+        197
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "aggregation_type",
+          "type": {
+            "defined": {
+              "name": "AggregationType"
+            }
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "AnalyticsResult"
+        }
+      }
+    },
+    {
+      "name": "analytics_scan",
+      "discriminator": [
+        136,
+        38,
+        146,
+        99,
+        29,
+        232,
+        200,
+        25
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "filter_threshold",
+          "type": "u64"
+        }
+      ],
+      "returns": "u32"
+    },
+    {
+      "name": "cpu_heavy_hash",
+      "discriminator": [
+        40,
+        169,
+        53,
+        155,
+        80,
+        87,
+        105,
+        52
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "The payer for the transaction"
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "iterations",
+          "type": "u16"
+        },
+        {
+          "name": "data_size",
+          "type": "u16"
+        }
+      ],
+      "returns": {
+        "array": [
+          "u8",
+          32
+        ]
+      }
+    },
+    {
+      "name": "cpu_heavy_loop",
+      "discriminator": [
+        139,
+        213,
+        20,
+        70,
+        36,
+        114,
+        28,
+        59
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "The payer for the transaction"
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "iterations",
+          "type": "u32"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "cpu_heavy_matrix",
+      "discriminator": [
+        51,
+        117,
+        225,
+        72,
+        219,
+        93,
+        111,
+        173
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "The payer for the transaction"
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "matrix_size",
+          "type": "u8"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "cpu_heavy_sort",
+      "discriminator": [
+        94,
+        209,
+        131,
+        240,
+        127,
+        8,
+        58,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "The payer for the transaction"
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "array_size",
+          "type": "u16"
+        },
+        {
+          "name": "seed",
+          "type": "u64"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "do_nothing",
+      "discriminator": [
+        112,
+        130,
+        224,
+        161,
+        71,
+        149,
+        192,
+        187
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "The payer for the transaction (required for fee accounting)"
+          ],
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "do_nothing_nonce",
+      "discriminator": [
+        193,
+        113,
+        244,
+        103,
+        106,
+        206,
+        220,
+        138
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "The payer for the transaction"
+          ],
+          "signer": true
+        },
+        {
+          "name": "benchmark_state",
+          "docs": [
+            "Optional: benchmark state for metric tracking"
+          ],
+          "writable": true,
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "finalize_benchmark",
+      "discriminator": [
+        220,
+        84,
+        185,
+        99,
+        168,
+        167,
+        190,
+        203
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "benchmark_state",
+          "writable": true
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "BenchmarkSummary"
+        }
+      }
+    },
+    {
+      "name": "initialize_benchmark",
+      "discriminator": [
+        147,
+        221,
+        39,
+        177,
+        50,
+        147,
+        24,
+        239
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "benchmark_state",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": {
+              "name": "BlockbenchConfig"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "io_heavy_mixed",
+      "discriminator": [
+        126,
+        246,
+        203,
+        250,
+        205,
+        179,
+        254,
+        120
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "io_account",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "read_ratio",
+          "type": "u8"
+        },
+        {
+          "name": "total_ops",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "io_heavy_read",
+      "discriminator": [
+        114,
+        159,
+        223,
+        215,
+        165,
+        39,
+        150,
+        251
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "num_reads",
+          "type": "u8"
+        }
+      ],
+      "returns": "u64"
+    },
+    {
+      "name": "io_heavy_write",
+      "discriminator": [
+        17,
+        52,
+        183,
+        202,
+        198,
+        39,
+        37,
+        50
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "io_account",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "key_prefix",
+          "type": {
+            "array": [
+              "u8",
+              16
+            ]
+          }
+        },
+        {
+          "name": "value_size",
+          "type": "u16"
+        },
+        {
+          "name": "num_writes",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "record_metric",
+      "discriminator": [
+        190,
+        203,
+        37,
+        221,
+        93,
+        202,
+        182,
+        75
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "benchmark_state",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "benchmark_type",
+          "type": {
+            "defined": {
+              "name": "BenchmarkType"
+            }
+          }
+        },
+        {
+          "name": "latency_us",
+          "type": "u64"
+        },
+        {
+          "name": "compute_units",
+          "type": "u64"
+        },
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "reset_metrics",
+      "discriminator": [
+        39,
+        187,
+        27,
+        75,
+        171,
+        217,
+        129,
+        77
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "benchmark_state",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "ycsb_batch_insert",
+      "discriminator": [
+        15,
+        17,
+        34,
+        240,
+        131,
+        66,
+        61,
+        2
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ycsb_store",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "records",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "YcsbRecord"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "ycsb_delete",
+      "discriminator": [
+        135,
+        146,
+        7,
+        2,
+        41,
+        65,
+        211,
+        11
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ycsb_store",
+          "writable": true
+        },
+        {
+          "name": "record",
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "key",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ycsb_init_store",
+      "discriminator": [
+        179,
+        106,
+        69,
+        158,
+        23,
+        16,
+        160,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ycsb_store",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "ycsb_insert",
+      "discriminator": [
+        157,
+        93,
+        225,
+        162,
+        203,
+        227,
+        64,
+        180
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ycsb_store",
+          "writable": true
+        },
+        {
+          "name": "record",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "key",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "value",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "ycsb_read",
+      "discriminator": [
+        138,
+        247,
+        118,
+        182,
+        221,
+        53,
+        234,
+        17
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "signer": true
+        },
+        {
+          "name": "ycsb_store"
+        },
+        {
+          "name": "record"
+        }
+      ],
+      "args": [
+        {
+          "name": "key",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ],
+      "returns": "bytes"
+    },
+    {
+      "name": "ycsb_update",
+      "discriminator": [
+        155,
+        5,
+        95,
+        40,
+        103,
+        230,
+        73,
+        71
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "ycsb_store"
+        },
+        {
+          "name": "record",
+          "writable": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "key",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "value",
+          "type": "bytes"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BlockbenchState",
+      "discriminator": [
+        21,
+        20,
+        82,
+        5,
+        198,
+        94,
+        115,
+        46
+      ]
+    },
+    {
+      "name": "IoHeavyAccount",
+      "discriminator": [
+        39,
+        57,
+        129,
+        36,
+        240,
+        122,
+        31,
+        168
+      ]
+    },
+    {
+      "name": "YcsbRecord",
+      "discriminator": [
+        245,
+        63,
+        90,
+        224,
+        65,
+        9,
+        18,
+        216
+      ]
+    },
+    {
+      "name": "YcsbStore",
+      "discriminator": [
+        133,
+        180,
+        45,
+        89,
+        251,
+        79,
+        1,
+        46
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BenchmarkNotRunning",
+      "msg": "Benchmark is not running"
+    },
+    {
+      "code": 6001,
+      "name": "BenchmarkAlreadyRunning",
+      "msg": "Benchmark is already running"
+    },
+    {
+      "code": 6002,
+      "name": "Unauthorized",
+      "msg": "Unauthorized access"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidConfig",
+      "msg": "Invalid configuration parameter"
+    },
+    {
+      "code": 6004,
+      "name": "OperationCountExceeded",
+      "msg": "Operation count exceeded"
+    },
+    {
+      "code": 6005,
+      "name": "YcsbRecordNotFound",
+      "msg": "YCSB record not found"
+    },
+    {
+      "code": 6006,
+      "name": "YcsbRecordAlreadyExists",
+      "msg": "YCSB record already exists"
+    },
+    {
+      "code": 6007,
+      "name": "ValueTooLarge",
+      "msg": "Value size exceeds maximum"
+    },
+    {
+      "code": 6008,
+      "name": "ArrayTooLarge",
+      "msg": "Array size exceeds compute budget"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidAggregationType",
+      "msg": "Invalid aggregation type"
+    },
+    {
+      "code": 6010,
+      "name": "InsufficientAccounts",
+      "msg": "Insufficient accounts provided"
+    },
+    {
+      "code": 6011,
+      "name": "MatrixTooLarge",
+      "msg": "Matrix size exceeds limit"
+    },
+    {
+      "code": 6012,
+      "name": "TooManyHashIterations",
+      "msg": "Hash iteration count exceeds limit"
+    },
+    {
+      "code": 6013,
+      "name": "TooManyIoOperations",
+      "msg": "IO operation count exceeds limit"
+    },
+    {
+      "code": 6014,
+      "name": "DurationExceeded",
+      "msg": "Benchmark duration exceeded"
+    },
+    {
+      "code": 6015,
+      "name": "InvalidDistribution",
+      "msg": "Invalid distribution type"
+    },
+    {
+      "code": 6016,
+      "name": "ArithmeticOverflow",
+      "msg": "Arithmetic overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "AggregationType",
+      "docs": [
+        "Aggregation type for analytics benchmark"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Sum"
+          },
+          {
+            "name": "Count"
+          },
+          {
+            "name": "Average"
+          },
+          {
+            "name": "Min"
+          },
+          {
+            "name": "Max"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AnalyticsResult",
+      "docs": [
+        "Analytics query result"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "aggregation_type",
+            "type": "u8"
+          },
+          {
+            "name": "result_value",
+            "type": "u64"
+          },
+          {
+            "name": "records_scanned",
+            "type": "u32"
+          },
+          {
+            "name": "compute_units_used",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BenchmarkSummary",
+      "docs": [
+        "Benchmark summary returned after finalization"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tps",
+            "docs": [
+              "Transactions per second"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "avg_latency_us",
+            "docs": [
+              "Average latency in microseconds"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "p50_latency_us",
+            "docs": [
+              "Latency percentiles (p50, p90, p95, p99)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "p90_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "p95_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "p99_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "success_rate_bps",
+            "docs": [
+              "Success rate (basis points, 10000 = 100%)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "avg_compute_units",
+            "docs": [
+              "Average compute units per transaction"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "duration_seconds",
+            "docs": [
+              "Total duration in seconds"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BenchmarkType",
+      "docs": [
+        "Benchmark type for metric recording"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "DoNothing"
+          },
+          {
+            "name": "CpuHeavy"
+          },
+          {
+            "name": "IoHeavy"
+          },
+          {
+            "name": "Analytics"
+          },
+          {
+            "name": "YcsbRead"
+          },
+          {
+            "name": "YcsbInsert"
+          },
+          {
+            "name": "YcsbUpdate"
+          },
+          {
+            "name": "YcsbDelete"
+          },
+          {
+            "name": "YcsbScan"
+          },
+          {
+            "name": "Smallbank"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BlockbenchConfig",
+      "docs": [
+        "Benchmark configuration parameters"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "workload_type",
+            "docs": [
+              "Target workload type"
+            ],
+            "type": {
+              "defined": {
+                "name": "WorkloadType"
+              }
+            }
+          },
+          {
+            "name": "operation_count",
+            "docs": [
+              "Number of operations to perform"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "concurrency",
+            "docs": [
+              "Concurrency level (simulated)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "duration_seconds",
+            "docs": [
+              "Duration in seconds (0 = unlimited)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "record_count",
+            "docs": [
+              "YCSB-specific: Record count"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "field_count",
+            "docs": [
+              "YCSB-specific: Field count per record"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "field_size",
+            "docs": [
+              "YCSB-specific: Field size in bytes"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "distribution",
+            "docs": [
+              "Distribution type for key selection"
+            ],
+            "type": {
+              "defined": {
+                "name": "DistributionType"
+              }
+            }
+          },
+          {
+            "name": "zipfian_constant",
+            "docs": [
+              "Zipfian constant (if using Zipfian distribution)"
+            ],
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BlockbenchMetrics",
+      "docs": [
+        "Aggregated benchmark metrics"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total_operations",
+            "type": "u64"
+          },
+          {
+            "name": "successful_operations",
+            "type": "u64"
+          },
+          {
+            "name": "failed_operations",
+            "type": "u64"
+          },
+          {
+            "name": "total_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "min_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "max_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "latency_sum_squares",
+            "type": "u64"
+          },
+          {
+            "name": "total_compute_units",
+            "type": "u64"
+          },
+          {
+            "name": "min_compute_units",
+            "type": "u64"
+          },
+          {
+            "name": "max_compute_units",
+            "type": "u64"
+          },
+          {
+            "name": "read_count",
+            "type": "u64"
+          },
+          {
+            "name": "insert_count",
+            "type": "u64"
+          },
+          {
+            "name": "update_count",
+            "type": "u64"
+          },
+          {
+            "name": "delete_count",
+            "type": "u64"
+          },
+          {
+            "name": "scan_count",
+            "type": "u64"
+          },
+          {
+            "name": "timeout_errors",
+            "type": "u64"
+          },
+          {
+            "name": "conflict_errors",
+            "type": "u64"
+          },
+          {
+            "name": "other_errors",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BlockbenchState",
+      "docs": [
+        "Global benchmark configuration"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Authority who can manage the benchmark"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "config",
+            "docs": [
+              "Configuration for current benchmark run"
+            ],
+            "type": {
+              "defined": {
+                "name": "BlockbenchConfig"
+              }
+            }
+          },
+          {
+            "name": "metrics",
+            "docs": [
+              "Aggregated metrics"
+            ],
+            "type": {
+              "defined": {
+                "name": "BlockbenchMetrics"
+              }
+            }
+          },
+          {
+            "name": "is_running",
+            "docs": [
+              "Benchmark run state"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "start_time",
+            "type": "i64"
+          },
+          {
+            "name": "end_time",
+            "type": "i64"
+          },
+          {
+            "name": "run_id",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DistributionType",
+      "docs": [
+        "Key distribution types for workload generation"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Uniform"
+          },
+          {
+            "name": "Zipfian"
+          },
+          {
+            "name": "Latest"
+          },
+          {
+            "name": "Hotspot"
+          }
+        ]
+      }
+    },
+    {
+      "name": "IoHeavyAccount",
+      "docs": [
+        "Account for IO heavy benchmark writes"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "Key identifier"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "data",
+            "docs": [
+              "Variable size data"
+            ],
+            "type": "bytes"
+          },
+          {
+            "name": "write_count",
+            "docs": [
+              "Write counter"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "last_write",
+            "docs": [
+              "Last write timestamp"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WorkloadType",
+      "docs": [
+        "Workload types supported by BLOCKBENCH"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "DoNothing"
+          },
+          {
+            "name": "CpuHeavySort"
+          },
+          {
+            "name": "CpuHeavyLoop"
+          },
+          {
+            "name": "CpuHeavyHash"
+          },
+          {
+            "name": "CpuHeavyMatrix"
+          },
+          {
+            "name": "IoHeavyWrite"
+          },
+          {
+            "name": "IoHeavyRead"
+          },
+          {
+            "name": "IoHeavyMixed"
+          },
+          {
+            "name": "Analytics"
+          },
+          {
+            "name": "YcsbA"
+          },
+          {
+            "name": "YcsbB"
+          },
+          {
+            "name": "YcsbC"
+          },
+          {
+            "name": "YcsbF"
+          },
+          {
+            "name": "Smallbank"
+          }
+        ]
+      }
+    },
+    {
+      "name": "YcsbRecord",
+      "docs": [
+        "YCSB Key-Value Record"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "key",
+            "docs": [
+              "The key for this record (32 bytes for PDA derivation)"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "value",
+            "docs": [
+              "The value data (variable size, max 1KB for benchmark)"
+            ],
+            "type": "bytes"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Metadata"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "updated_at",
+            "type": "i64"
+          },
+          {
+            "name": "version",
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "PDA bump"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "YcsbStore",
+      "docs": [
+        "YCSB Store configuration"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "record_count",
+            "type": "u32"
+          },
+          {
+            "name": "field_count",
+            "type": "u8"
+          },
+          {
+            "name": "field_size",
+            "type": "u16"
+          },
+          {
+            "name": "initialized",
+            "type": "bool"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

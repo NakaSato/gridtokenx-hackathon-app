@@ -1,0 +1,26 @@
+# Security Policy
+# https://trading.gridtokenx.com/.well-known/security.txt
+
+Contact: mailto:security@gridtokenx.com
+Contact: https://github.com/NakaSato/gridtokenx-trading/security
+Expires: 2026-12-31T23:59:59.000Z
+Encryption: https://gridtokenx.com/pgp-key.txt
+Acknowledgments: https://gridtokenx.com/security-hall-of-fame
+Preferred-Languages: en
+Canonical: https://trading.gridtokenx.com/.well-known/security.txt
+Policy: https://gridtokenx.com/security-policy
+
+# Please report security vulnerabilities to our security team.
+# We take security seriously and will respond promptly to all reports.
+# 
+# Scope:
+# - Smart contracts on Solana blockchain
+# - Web application vulnerabilities
+# - API security issues
+# - Authentication/Authorization flaws
+# 
+# Out of scope:
+# - Social engineering attacks
+# - DDoS attacks
+# - Third-party service vulnerabilities
+# - Physical security issues

@@ -1,0 +1,2372 @@
+{
+  "address": "DN3XToyEqdvLxXchQZufQj5eXZrxE1yfxsDVDPUrXemD",
+  "metadata": {
+    "name": "tpc_benchmark",
+    "version": "0.1.1",
+    "spec": "0.1.0",
+    "description": "TPC-C/TPC-E Benchmark Implementation for Solana Anchor - PoA Environment",
+    "repository": "https://github.com/NakaSato/gridtokenx-anchor"
+  },
+  "instructions": [
+    {
+      "name": "delivery",
+      "discriminator": [
+        109,
+        221,
+        207,
+        243,
+        211,
+        173,
+        246,
+        181
+      ],
+      "accounts": [
+        {
+          "name": "warehouse",
+          "docs": [
+            "Warehouse for reference"
+          ]
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "carrier_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "delivery_district",
+      "discriminator": [
+        187,
+        60,
+        152,
+        161,
+        65,
+        234,
+        241,
+        169
+      ],
+      "accounts": [
+        {
+          "name": "district",
+          "docs": [
+            "District for reference"
+          ]
+        },
+        {
+          "name": "new_order",
+          "docs": [
+            "NewOrder to be deleted (oldest in district)",
+            "Note: In practice, the client must find the oldest o_id"
+          ],
+          "writable": true
+        },
+        {
+          "name": "order",
+          "docs": [
+            "Order to be updated"
+          ],
+          "writable": true
+        },
+        {
+          "name": "customer",
+          "docs": [
+            "Customer to be updated"
+          ],
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "carrier_id",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_benchmark",
+      "discriminator": [
+        147,
+        221,
+        39,
+        177,
+        50,
+        147,
+        24,
+        239
+      ],
+      "accounts": [
+        {
+          "name": "benchmark",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "config",
+          "type": {
+            "defined": {
+              "name": "BenchmarkConfig"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "initialize_customer",
+      "discriminator": [
+        143,
+        195,
+        28,
+        105,
+        245,
+        243,
+        225,
+        192
+      ],
+      "accounts": [
+        {
+          "name": "customer",
+          "writable": true
+        },
+        {
+          "name": "district",
+          "docs": [
+            "Verify district exists"
+          ]
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "c_id",
+          "type": "u64"
+        },
+        {
+          "name": "first",
+          "type": "string"
+        },
+        {
+          "name": "middle",
+          "type": "string"
+        },
+        {
+          "name": "last",
+          "type": "string"
+        },
+        {
+          "name": "street_1",
+          "type": "string"
+        },
+        {
+          "name": "street_2",
+          "type": "string"
+        },
+        {
+          "name": "city",
+          "type": "string"
+        },
+        {
+          "name": "state",
+          "type": "string"
+        },
+        {
+          "name": "zip",
+          "type": "string"
+        },
+        {
+          "name": "phone",
+          "type": "string"
+        },
+        {
+          "name": "credit",
+          "type": {
+            "defined": {
+              "name": "CreditStatus"
+            }
+          }
+        },
+        {
+          "name": "credit_lim",
+          "type": "u64"
+        },
+        {
+          "name": "discount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_customer_index",
+      "discriminator": [
+        214,
+        218,
+        51,
+        52,
+        208,
+        169,
+        158,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "index",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "last_name_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "initialize_district",
+      "discriminator": [
+        43,
+        48,
+        88,
+        175,
+        198,
+        253,
+        211,
+        22
+      ],
+      "accounts": [
+        {
+          "name": "district",
+          "writable": true
+        },
+        {
+          "name": "warehouse",
+          "docs": [
+            "Verify warehouse exists"
+          ]
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "street_1",
+          "type": "string"
+        },
+        {
+          "name": "street_2",
+          "type": "string"
+        },
+        {
+          "name": "city",
+          "type": "string"
+        },
+        {
+          "name": "state",
+          "type": "string"
+        },
+        {
+          "name": "zip",
+          "type": "string"
+        },
+        {
+          "name": "tax",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_item",
+      "discriminator": [
+        56,
+        205,
+        178,
+        170,
+        150,
+        105,
+        174,
+        27
+      ],
+      "accounts": [
+        {
+          "name": "item",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "i_id",
+          "type": "u64"
+        },
+        {
+          "name": "im_id",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize_stock",
+      "discriminator": [
+        194,
+        21,
+        247,
+        110,
+        172,
+        145,
+        232,
+        230
+      ],
+      "accounts": [
+        {
+          "name": "stock",
+          "writable": true
+        },
+        {
+          "name": "warehouse",
+          "docs": [
+            "Verify warehouse exists"
+          ]
+        },
+        {
+          "name": "item",
+          "docs": [
+            "Verify item exists"
+          ]
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "i_id",
+          "type": "u64"
+        },
+        {
+          "name": "quantity",
+          "type": "u64"
+        },
+        {
+          "name": "dist_01",
+          "type": "string"
+        },
+        {
+          "name": "dist_02",
+          "type": "string"
+        },
+        {
+          "name": "dist_03",
+          "type": "string"
+        },
+        {
+          "name": "dist_04",
+          "type": "string"
+        },
+        {
+          "name": "dist_05",
+          "type": "string"
+        },
+        {
+          "name": "dist_06",
+          "type": "string"
+        },
+        {
+          "name": "dist_07",
+          "type": "string"
+        },
+        {
+          "name": "dist_08",
+          "type": "string"
+        },
+        {
+          "name": "dist_09",
+          "type": "string"
+        },
+        {
+          "name": "dist_10",
+          "type": "string"
+        },
+        {
+          "name": "data",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize_warehouse",
+      "discriminator": [
+        203,
+        223,
+        91,
+        130,
+        196,
+        53,
+        175,
+        246
+      ],
+      "accounts": [
+        {
+          "name": "warehouse",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "street_1",
+          "type": "string"
+        },
+        {
+          "name": "street_2",
+          "type": "string"
+        },
+        {
+          "name": "city",
+          "type": "string"
+        },
+        {
+          "name": "state",
+          "type": "string"
+        },
+        {
+          "name": "zip",
+          "type": "string"
+        },
+        {
+          "name": "tax",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "new_order",
+      "discriminator": [
+        153,
+        0,
+        116,
+        34,
+        241,
+        46,
+        40,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "warehouse",
+          "docs": [
+            "Warehouse - read tax rate"
+          ]
+        },
+        {
+          "name": "district",
+          "docs": [
+            "District - CRITICAL: increment next_o_id (WRITE LOCK)",
+            "This is the primary serialization point for the district"
+          ],
+          "writable": true
+        },
+        {
+          "name": "customer",
+          "docs": [
+            "Customer - read discount rate"
+          ]
+        },
+        {
+          "name": "order",
+          "docs": [
+            "Order - to be created (PDA with next_o_id)",
+            "Space allocated for max 15 order lines"
+          ],
+          "writable": true
+        },
+        {
+          "name": "new_order",
+          "docs": [
+            "NewOrder - to be created (queue entry for undelivered orders)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "docs": [
+            "Payer for account creation (rent)"
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "c_id",
+          "type": "u64"
+        },
+        {
+          "name": "o_id",
+          "type": "u64"
+        },
+        {
+          "name": "order_lines",
+          "type": {
+            "vec": {
+              "defined": {
+                "name": "OrderLineInput"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "order_status",
+      "discriminator": [
+        113,
+        240,
+        191,
+        187,
+        101,
+        109,
+        98,
+        104
+      ],
+      "accounts": [
+        {
+          "name": "customer",
+          "docs": [
+            "Customer - READ"
+          ]
+        },
+        {
+          "name": "order",
+          "docs": [
+            "Most recent order - READ",
+            "Note: In a full implementation, we'd need to find the most recent order",
+            "For simplicity, we pass the order directly"
+          ],
+          "optional": true
+        },
+        {
+          "name": "customer_index",
+          "docs": [
+            "Optional: Customer index for last name lookup"
+          ],
+          "optional": true
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "c_id",
+          "type": "u64"
+        },
+        {
+          "name": "by_last_name",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "payment",
+      "discriminator": [
+        156,
+        226,
+        80,
+        91,
+        104,
+        252,
+        49,
+        142
+      ],
+      "accounts": [
+        {
+          "name": "warehouse",
+          "docs": [
+            "Warehouse receiving payment - UPDATE YTD"
+          ],
+          "writable": true
+        },
+        {
+          "name": "district",
+          "docs": [
+            "District receiving payment - UPDATE YTD"
+          ],
+          "writable": true
+        },
+        {
+          "name": "customer",
+          "docs": [
+            "Customer making payment - UPDATE BALANCE",
+            "Note: Customer may be from different warehouse/district (15% of cases)"
+          ],
+          "writable": true
+        },
+        {
+          "name": "history",
+          "docs": [
+            "History record - CREATE",
+            "h_id should be a unique timestamp provided by the client"
+          ],
+          "writable": true
+        },
+        {
+          "name": "customer_index",
+          "docs": [
+            "Optional: Customer index for last name lookup",
+            "Only used when by_last_name = true (60% of cases)"
+          ],
+          "optional": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "c_id",
+          "type": "u64"
+        },
+        {
+          "name": "c_w_id",
+          "type": "u64"
+        },
+        {
+          "name": "c_d_id",
+          "type": "u64"
+        },
+        {
+          "name": "h_id",
+          "type": "u64"
+        },
+        {
+          "name": "h_amount",
+          "type": "u64"
+        },
+        {
+          "name": "by_last_name",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "record_metric",
+      "discriminator": [
+        190,
+        203,
+        37,
+        221,
+        93,
+        202,
+        182,
+        75
+      ],
+      "accounts": [
+        {
+          "name": "benchmark",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "Authority must be the benchmark owner"
+          ],
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "tx_type",
+          "type": {
+            "defined": {
+              "name": "TransactionType"
+            }
+          }
+        },
+        {
+          "name": "latency_us",
+          "type": "u64"
+        },
+        {
+          "name": "success",
+          "type": "bool"
+        },
+        {
+          "name": "retry_count",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "reset_benchmark",
+      "discriminator": [
+        211,
+        61,
+        45,
+        190,
+        135,
+        236,
+        181,
+        61
+      ],
+      "accounts": [
+        {
+          "name": "benchmark",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "docs": [
+            "Authority must be the benchmark owner"
+          ],
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "stock_level",
+      "discriminator": [
+        93,
+        43,
+        76,
+        44,
+        71,
+        3,
+        195,
+        146
+      ],
+      "accounts": [
+        {
+          "name": "district",
+          "docs": [
+            "District to get next_o_id (determines recent orders)"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "w_id",
+          "type": "u64"
+        },
+        {
+          "name": "d_id",
+          "type": "u64"
+        },
+        {
+          "name": "threshold",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "BenchmarkState",
+      "discriminator": [
+        10,
+        173,
+        144,
+        146,
+        93,
+        126,
+        143,
+        63
+      ]
+    },
+    {
+      "name": "Customer",
+      "discriminator": [
+        112,
+        147,
+        140,
+        31,
+        93,
+        186,
+        103,
+        18
+      ]
+    },
+    {
+      "name": "CustomerLastNameIndex",
+      "discriminator": [
+        220,
+        251,
+        94,
+        45,
+        7,
+        170,
+        204,
+        93
+      ]
+    },
+    {
+      "name": "District",
+      "discriminator": [
+        169,
+        182,
+        200,
+        137,
+        136,
+        181,
+        119,
+        198
+      ]
+    },
+    {
+      "name": "History",
+      "discriminator": [
+        31,
+        216,
+        60,
+        33,
+        213,
+        209,
+        70,
+        101
+      ]
+    },
+    {
+      "name": "Item",
+      "discriminator": [
+        92,
+        157,
+        163,
+        130,
+        72,
+        254,
+        86,
+        216
+      ]
+    },
+    {
+      "name": "NewOrderEntry",
+      "discriminator": [
+        84,
+        121,
+        240,
+        204,
+        245,
+        4,
+        206,
+        99
+      ]
+    },
+    {
+      "name": "Order",
+      "discriminator": [
+        134,
+        173,
+        223,
+        185,
+        77,
+        86,
+        28,
+        51
+      ]
+    },
+    {
+      "name": "Stock",
+      "discriminator": [
+        72,
+        150,
+        18,
+        32,
+        28,
+        209,
+        236,
+        29
+      ]
+    },
+    {
+      "name": "Warehouse",
+      "discriminator": [
+        162,
+        150,
+        206,
+        71,
+        83,
+        99,
+        222,
+        202
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BenchmarkAlreadyInitialized",
+      "msg": "Benchmark already initialized"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidWarehouseId",
+      "msg": "Invalid warehouse ID"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidDistrictId",
+      "msg": "Invalid district ID - must be 1-10"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidCustomerId",
+      "msg": "Invalid customer ID - must be 1-3000"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidItemId",
+      "msg": "Invalid item ID - must be 1-100000"
+    },
+    {
+      "code": 6005,
+      "name": "StringTooLong",
+      "msg": "String exceeds maximum length"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidTaxRate",
+      "msg": "Tax rate must be 0-2000 basis points"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidDiscount",
+      "msg": "Discount must be 0-5000 basis points"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidOrderLineCount",
+      "msg": "Order must have 5-15 items per TPC-C specification"
+    },
+    {
+      "code": 6009,
+      "name": "ItemNotFound",
+      "msg": "Invalid item ID - item does not exist"
+    },
+    {
+      "code": 6010,
+      "name": "InsufficientStock",
+      "msg": "Insufficient stock for order"
+    },
+    {
+      "code": 6011,
+      "name": "CustomerNotFound",
+      "msg": "Customer not found"
+    },
+    {
+      "code": 6012,
+      "name": "DistrictNotFound",
+      "msg": "District not found"
+    },
+    {
+      "code": 6013,
+      "name": "WarehouseNotFound",
+      "msg": "Warehouse not found"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidQuantity",
+      "msg": "Invalid quantity - must be 1-10"
+    },
+    {
+      "code": 6015,
+      "name": "OrderIdOverflow",
+      "msg": "Order ID overflow - district counter exhausted"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidPaymentAmount",
+      "msg": "Invalid payment amount - must be positive"
+    },
+    {
+      "code": 6017,
+      "name": "BalanceOverflow",
+      "msg": "Customer balance would overflow"
+    },
+    {
+      "code": 6018,
+      "name": "HistoryCreationFailed",
+      "msg": "History record creation failed"
+    },
+    {
+      "code": 6019,
+      "name": "CustomerNotFoundByLastName",
+      "msg": "Customer not found by last name"
+    },
+    {
+      "code": 6020,
+      "name": "OrderNotFound",
+      "msg": "Order not found for customer"
+    },
+    {
+      "code": 6021,
+      "name": "NoUndeliveredOrders",
+      "msg": "No undelivered orders found for district"
+    },
+    {
+      "code": 6022,
+      "name": "NewOrderNotFound",
+      "msg": "New-order record not found"
+    },
+    {
+      "code": 6023,
+      "name": "OrderAlreadyDelivered",
+      "msg": "Order already delivered"
+    },
+    {
+      "code": 6024,
+      "name": "InvalidCarrierId",
+      "msg": "Invalid carrier ID - must be 1-10"
+    },
+    {
+      "code": 6025,
+      "name": "ComputeBudgetExceeded",
+      "msg": "Delivery transaction would exceed compute budget"
+    },
+    {
+      "code": 6026,
+      "name": "InvalidStockThreshold",
+      "msg": "Invalid stock threshold"
+    },
+    {
+      "code": 6027,
+      "name": "CustomerIndexNotFound",
+      "msg": "Customer index not found"
+    },
+    {
+      "code": 6028,
+      "name": "CustomerIndexFull",
+      "msg": "Customer index full - too many customers with same last name"
+    },
+    {
+      "code": 6029,
+      "name": "BenchmarkNotInitialized",
+      "msg": "Benchmark not initialized"
+    },
+    {
+      "code": 6030,
+      "name": "BenchmarkAlreadyRunning",
+      "msg": "Benchmark already running"
+    },
+    {
+      "code": 6031,
+      "name": "BenchmarkNotRunning",
+      "msg": "Benchmark not running"
+    },
+    {
+      "code": 6032,
+      "name": "Unauthorized",
+      "msg": "Unauthorized - only authority can perform this action"
+    },
+    {
+      "code": 6033,
+      "name": "LockConflict",
+      "msg": "Account lock conflict - transaction serialized"
+    },
+    {
+      "code": 6034,
+      "name": "StaleBlockhash",
+      "msg": "Stale blockhash - transaction expired"
+    },
+    {
+      "code": 6035,
+      "name": "AccountInUse",
+      "msg": "Account already in use by concurrent transaction"
+    }
+  ],
+  "types": [
+    {
+      "name": "BenchmarkConfig",
+      "docs": [
+        "Configuration for benchmark execution"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "warehouses",
+            "docs": [
+              "Number of warehouses (W parameter - scale factor)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "districts_per_warehouse",
+            "docs": [
+              "Districts per warehouse (always 10 per TPC-C spec)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "customers_per_district",
+            "docs": [
+              "Customers per district (3000 per TPC-C spec)"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "total_items",
+            "docs": [
+              "Total items in catalog (100,000 per TPC-C spec)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "duration_seconds",
+            "docs": [
+              "Duration in seconds"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "warmup_percent",
+            "docs": [
+              "Warmup percentage to discard"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "use_real_transactions",
+            "docs": [
+              "Whether to use real transactions or simulation"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BenchmarkState",
+      "docs": [
+        "Global benchmark configuration and statistics"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Authority who can manage the benchmark"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "config",
+            "docs": [
+              "Benchmark configuration"
+            ],
+            "type": {
+              "defined": {
+                "name": "BenchmarkConfig"
+              }
+            }
+          },
+          {
+            "name": "stats",
+            "docs": [
+              "Running statistics"
+            ],
+            "type": {
+              "defined": {
+                "name": "BenchmarkStats"
+              }
+            }
+          },
+          {
+            "name": "is_running",
+            "docs": [
+              "Benchmark state"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "start_time",
+            "type": "i64"
+          },
+          {
+            "name": "end_time",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "BenchmarkStats",
+      "docs": [
+        "Benchmark execution statistics"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "new_order_count",
+            "docs": [
+              "New-Order transactions completed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "payment_count",
+            "docs": [
+              "Payment transactions completed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "order_status_count",
+            "docs": [
+              "Order-Status transactions completed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "delivery_count",
+            "docs": [
+              "Delivery transactions completed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "stock_level_count",
+            "docs": [
+              "Stock-Level transactions completed"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "successful_transactions",
+            "docs": [
+              "Total successful transactions"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "failed_transactions",
+            "docs": [
+              "Total failed transactions"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "conflict_count",
+            "docs": [
+              "MVCC/Lock conflicts"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_latency_us",
+            "docs": [
+              "Latency statistics (microseconds)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "min_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "max_latency_us",
+            "type": "u64"
+          },
+          {
+            "name": "tpm_c",
+            "docs": [
+              "Computed tpmC (New-Order transactions per minute)"
+            ],
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreditStatus",
+      "docs": [
+        "Customer credit status"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "GoodCredit"
+          },
+          {
+            "name": "BadCredit"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Customer",
+      "docs": [
+        "Customer account - end user who places orders",
+        "PDA: [\"customer\", w_id.to_le_bytes(), d_id.to_le_bytes(), c_id.to_le_bytes()]",
+        "",
+        "Contention Profile: LOW",
+        "- Updated by Payment transactions (balance, ytd_payment)",
+        "- Conflicts only when same customer makes multiple payments"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID (C_W_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "d_id",
+            "docs": [
+              "District ID (C_D_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "c_id",
+            "docs": [
+              "Customer ID (C_ID) - 1-3000 per district"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "first",
+            "docs": [
+              "Name fields (for secondary index lookup)"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "middle",
+            "type": "string"
+          },
+          {
+            "name": "last",
+            "type": "string"
+          },
+          {
+            "name": "street_1",
+            "docs": [
+              "Address"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "street_2",
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "zip",
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "type": "string"
+          },
+          {
+            "name": "since",
+            "docs": [
+              "Timestamps"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "credit",
+            "docs": [
+              "Credit information"
+            ],
+            "type": {
+              "defined": {
+                "name": "CreditStatus"
+              }
+            }
+          },
+          {
+            "name": "credit_lim",
+            "type": "u64"
+          },
+          {
+            "name": "discount",
+            "type": "u64"
+          },
+          {
+            "name": "balance",
+            "docs": [
+              "Financial data"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "ytd_payment",
+            "type": "u64"
+          },
+          {
+            "name": "payment_cnt",
+            "type": "u32"
+          },
+          {
+            "name": "delivery_cnt",
+            "type": "u32"
+          },
+          {
+            "name": "data",
+            "docs": [
+              "Additional data for bad credit customers"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CustomerLastNameIndex",
+      "docs": [
+        "Secondary index for customer last name lookup",
+        "PDA: [\"idx_c_last\", w_id.to_le_bytes(), d_id.to_le_bytes(), hash(c_last)]",
+        "",
+        "TPC-C requires 60% of Payment and Order-Status to lookup by last name.",
+        "Since Solana doesn't support native secondary indexes, we build one.",
+        "",
+        "Handles non-unique last names by storing a vector of customer IDs."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "d_id",
+            "docs": [
+              "District ID"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "last_name_hash",
+            "docs": [
+              "Hash of the last name (32 bytes)"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "customer_ids",
+            "docs": [
+              "List of customer IDs with this last name",
+              "TPC-C spec: return middle customer in sorted order"
+            ],
+            "type": {
+              "vec": "u64"
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "District",
+      "docs": [
+        "District account - subdivision of a warehouse",
+        "PDA: [\"district\", w_id.to_le_bytes(), d_id.to_le_bytes()]",
+        "",
+        "Contention Profile: HIGH (CRITICAL SYNCHRONIZATION POINT)",
+        "- next_o_id is incremented by EVERY New-Order transaction",
+        "- All New-Order transactions for this district are SERIALIZED",
+        "- Parallelism is achieved ACROSS districts, not within"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID (D_W_ID) - part of composite key"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "d_id",
+            "docs": [
+              "District ID (D_ID) - 1-10 per warehouse"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "docs": [
+              "District name (D_NAME) - max 10 chars"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "street_1",
+            "docs": [
+              "Address fields"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "street_2",
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "zip",
+            "type": "string"
+          },
+          {
+            "name": "tax",
+            "docs": [
+              "Tax rate (D_TAX) - stored as basis points"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ytd",
+            "docs": [
+              "Year-to-date balance (D_YTD) - updated by Payment"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "next_o_id",
+            "docs": [
+              "CRITICAL: Next available order ID (D_NEXT_O_ID)",
+              "This counter is the primary source of write contention",
+              "All New-Order transactions must increment this atomically"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA derivation"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "History",
+      "docs": [
+        "History account - audit trail for payments",
+        "PDA: [\"history\", w_id.to_le_bytes(), d_id.to_le_bytes(), h_id.to_le_bytes()]",
+        "",
+        "Contention Profile: LOW (write-once)",
+        "- Created by Payment transaction",
+        "- Never updated after creation"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "c_w_id",
+            "docs": [
+              "Customer's warehouse ID (H_C_W_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "c_d_id",
+            "docs": [
+              "Customer's district ID (H_C_D_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "c_id",
+            "docs": [
+              "Customer ID (H_C_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "w_id",
+            "docs": [
+              "Transaction's warehouse ID (H_W_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "d_id",
+            "docs": [
+              "Transaction's district ID (H_D_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "h_id",
+            "docs": [
+              "History ID (for PDA derivation)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "date",
+            "docs": [
+              "Transaction date (H_DATE)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Payment amount (H_AMOUNT)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "data",
+            "docs": [
+              "Data string (H_DATA) - warehouse + district names"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Item",
+      "docs": [
+        "Item account - product in the catalog",
+        "PDA: [\"item\", i_id.to_le_bytes()]",
+        "",
+        "Contention Profile: READ-ONLY after initialization",
+        "- Never updated during benchmark execution",
+        "- Safe for parallel access from all transactions"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "i_id",
+            "docs": [
+              "Item ID (I_ID) - 1 to 100,000"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "im_id",
+            "docs": [
+              "Image ID (I_IM_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "docs": [
+              "Item name (I_NAME) - max 24 chars"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "docs": [
+              "Item price (I_PRICE) - stored in minor units (cents)",
+              "Range: $1.00 to $100.00 (100-10000)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "data",
+            "docs": [
+              "Item data (I_DATA) - max 50 chars",
+              "10% contain \"ORIGINAL\" string"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NewOrderEntry",
+      "docs": [
+        "NewOrder account - tracks orders awaiting delivery",
+        "PDA: [\"new_order\", w_id.to_le_bytes(), d_id.to_le_bytes(), o_id.to_le_bytes()]",
+        "",
+        "Contention Profile: HIGH",
+        "- Created by New-Order",
+        "- Deleted by Delivery (oldest undelivered order in district)",
+        "",
+        "This serves as a queue: Delivery processes the oldest entry"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID (NO_W_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "d_id",
+            "docs": [
+              "District ID (NO_D_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "o_id",
+            "docs": [
+              "Order ID (NO_O_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Creation timestamp for ordering"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Order",
+      "docs": [
+        "Order account - customer order with embedded order lines",
+        "PDA: [\"order\", w_id.to_le_bytes(), d_id.to_le_bytes(), o_id.to_le_bytes()]",
+        "",
+        "Contention Profile: LOW (immutable after creation)",
+        "- Created once during New-Order",
+        "- carrier_id updated once during Delivery",
+        "",
+        "OPTIMIZATION: Order lines are embedded as a vector instead of separate accounts",
+        "This reduces the transaction size and account loading overhead"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID (O_W_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "d_id",
+            "docs": [
+              "District ID (O_D_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "o_id",
+            "docs": [
+              "Order ID (O_ID) - assigned from District.next_o_id"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "c_id",
+            "docs": [
+              "Customer ID (O_C_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "entry_d",
+            "docs": [
+              "Entry date (O_ENTRY_D)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "carrier_id",
+            "docs": [
+              "Carrier ID (O_CARRIER_ID) - set during Delivery"
+            ],
+            "type": {
+              "option": "u64"
+            }
+          },
+          {
+            "name": "ol_cnt",
+            "docs": [
+              "Order line count (O_OL_CNT) - 5 to 15"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "all_local",
+            "docs": [
+              "All local flag (O_ALL_LOCAL)",
+              "True if all items are from home warehouse"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "lines",
+            "docs": [
+              "EMBEDDED: Order lines (optimization)",
+              "Instead of separate ORDER_LINE accounts, embed them here",
+              "Max 15 lines per TPC-C spec"
+            ],
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "OrderLine"
+                }
+              }
+            }
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderLine",
+      "docs": [
+        "Order line - individual item in an order",
+        "Embedded in Order account to reduce account count per transaction"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "number",
+            "docs": [
+              "Line number (OL_NUMBER) - 1 to 15"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "i_id",
+            "docs": [
+              "Item ID (OL_I_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "supply_w_id",
+            "docs": [
+              "Supply warehouse ID (OL_SUPPLY_W_ID)",
+              "May differ from order's warehouse for remote orders"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "delivery_d",
+            "docs": [
+              "Delivery date (OL_DELIVERY_D) - set during Delivery"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "quantity",
+            "docs": [
+              "Quantity (OL_QUANTITY)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount (OL_AMOUNT) - computed from item price * quantity"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dist_info",
+            "docs": [
+              "Distribution info (OL_DIST_INFO) - 24 chars from Stock"
+            ],
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OrderLineInput",
+      "docs": [
+        "Order line input for New-Order transaction"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "i_id",
+            "docs": [
+              "Item ID"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "supply_w_id",
+            "docs": [
+              "Supply warehouse ID (may differ for remote orders)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "quantity",
+            "docs": [
+              "Quantity ordered"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Stock",
+      "docs": [
+        "Stock account - inventory of an item at a warehouse",
+        "PDA: [\"stock\", w_id.to_le_bytes(), i_id.to_le_bytes()]",
+        "",
+        "Contention Profile: HIGH",
+        "- Updated by EVERY New-Order that includes this item",
+        "- Popular items will have significant contention",
+        "- TPC-C uses skewed distribution (zipfian) for item selection"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID (S_W_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "i_id",
+            "docs": [
+              "Item ID (S_I_ID)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "quantity",
+            "docs": [
+              "Current quantity (S_QUANTITY) - 10 to 100"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "dist_01",
+            "docs": [
+              "District-specific data strings (S_DIST_01 through S_DIST_10)",
+              "Each is 24 chars, used for order line distribution info"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "dist_02",
+            "type": "string"
+          },
+          {
+            "name": "dist_03",
+            "type": "string"
+          },
+          {
+            "name": "dist_04",
+            "type": "string"
+          },
+          {
+            "name": "dist_05",
+            "type": "string"
+          },
+          {
+            "name": "dist_06",
+            "type": "string"
+          },
+          {
+            "name": "dist_07",
+            "type": "string"
+          },
+          {
+            "name": "dist_08",
+            "type": "string"
+          },
+          {
+            "name": "dist_09",
+            "type": "string"
+          },
+          {
+            "name": "dist_10",
+            "type": "string"
+          },
+          {
+            "name": "ytd",
+            "docs": [
+              "Year-to-date quantity sold (S_YTD)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "order_cnt",
+            "docs": [
+              "Order count (S_ORDER_CNT)"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "remote_cnt",
+            "docs": [
+              "Remote order count (S_REMOTE_CNT) - cross-warehouse orders"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "data",
+            "docs": [
+              "Stock data (S_DATA) - max 50 chars",
+              "10% contain \"ORIGINAL\" string"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionType",
+      "docs": [
+        "Transaction type for metric recording"
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "NewOrder"
+          },
+          {
+            "name": "Payment"
+          },
+          {
+            "name": "OrderStatus"
+          },
+          {
+            "name": "Delivery"
+          },
+          {
+            "name": "StockLevel"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Warehouse",
+      "docs": [
+        "Warehouse account - represents a distribution center",
+        "PDA: [\"warehouse\", w_id.to_le_bytes()]",
+        "",
+        "Contention Profile: MODERATE",
+        "- Updated by Payment transactions (YTD field)",
+        "- All payments for this warehouse contend on this account"
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "w_id",
+            "docs": [
+              "Warehouse ID (W_ID) - primary key"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "name",
+            "docs": [
+              "Warehouse name (W_NAME) - max 10 chars"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "street_1",
+            "docs": [
+              "Address fields"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "street_2",
+            "type": "string"
+          },
+          {
+            "name": "city",
+            "type": "string"
+          },
+          {
+            "name": "state",
+            "type": "string"
+          },
+          {
+            "name": "zip",
+            "type": "string"
+          },
+          {
+            "name": "tax",
+            "docs": [
+              "Tax rate (W_TAX) - stored as basis points (0-2000 for 0-20%)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "ytd",
+            "docs": [
+              "Year-to-date balance (W_YTD) - updated by Payment transactions",
+              "This is a HOT FIELD causing write contention"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "bump",
+            "docs": [
+              "Bump seed for PDA derivation"
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

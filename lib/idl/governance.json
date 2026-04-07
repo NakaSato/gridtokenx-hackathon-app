@@ -1,0 +1,1632 @@
+{
+  "address": "DksRNiZsEZ3zN8n8ZWfukFqi3z74e5865oZ8wFk38p4X",
+  "metadata": {
+    "name": "governance",
+    "version": "0.1.1",
+    "spec": "0.1.0",
+    "description": "Governance program for P2P Energy Trading - Engineering Department administration"
+  },
+  "instructions": [
+    {
+      "name": "approve_authority_change",
+      "discriminator": [
+        21,
+        188,
+        156,
+        246,
+        104,
+        125,
+        107,
+        124
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "new_authority",
+          "docs": [
+            "The proposed new authority who must sign to approve"
+          ],
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancel_authority_change",
+      "discriminator": [
+        254,
+        193,
+        5,
+        128,
+        8,
+        87,
+        30,
+        194
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "get_governance_stats",
+      "discriminator": [
+        67,
+        29,
+        241,
+        120,
+        15,
+        8,
+        9,
+        16
+      ],
+      "accounts": [
+        {
+          "name": "poa_config"
+        }
+      ],
+      "args": [],
+      "returns": {
+        "defined": {
+          "name": "GovernanceStats"
+        }
+      }
+    },
+    {
+      "name": "initialize_poa",
+      "discriminator": [
+        98,
+        199,
+        82,
+        10,
+        244,
+        161,
+        157,
+        46
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "issue_erc",
+      "discriminator": [
+        174,
+        248,
+        149,
+        107,
+        155,
+        4,
+        196,
+        8
+      ],
+      "accounts": [
+        {
+          "name": "poa_config"
+        },
+        {
+          "name": "erc_certificate",
+          "writable": true
+        },
+        {
+          "name": "meter_account",
+          "docs": [
+            "Meter account from registry program - tracks claimed ERC generation"
+          ]
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "certificate_id",
+          "type": "string"
+        },
+        {
+          "name": "energy_amount",
+          "type": "u64"
+        },
+        {
+          "name": "renewable_source",
+          "type": "string"
+        },
+        {
+          "name": "validation_data",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "propose_authority_change",
+      "discriminator": [
+        22,
+        224,
+        215,
+        238,
+        184,
+        2,
+        83,
+        146
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "new_authority",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "revoke_erc",
+      "discriminator": [
+        16,
+        48,
+        113,
+        85,
+        118,
+        70,
+        185,
+        150
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "erc_certificate",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "reason",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "set_maintenance_mode",
+      "discriminator": [
+        87,
+        100,
+        0,
+        28,
+        116,
+        52,
+        46,
+        40
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "maintenance_enabled",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "set_oracle_authority",
+      "discriminator": [
+        39,
+        155,
+        66,
+        106,
+        213,
+        226,
+        114,
+        174
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "oracle_authority",
+          "type": "pubkey"
+        },
+        {
+          "name": "min_confidence",
+          "type": "u8"
+        },
+        {
+          "name": "require_validation",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "transfer_erc",
+      "discriminator": [
+        200,
+        15,
+        16,
+        13,
+        13,
+        143,
+        11,
+        11
+      ],
+      "accounts": [
+        {
+          "name": "poa_config"
+        },
+        {
+          "name": "erc_certificate",
+          "writable": true
+        },
+        {
+          "name": "current_owner",
+          "docs": [
+            "Current owner of the certificate"
+          ],
+          "signer": true
+        },
+        {
+          "name": "new_owner",
+          "docs": [
+            "New owner to transfer to"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "update_authority_info",
+      "discriminator": [
+        199,
+        12,
+        195,
+        232,
+        185,
+        99,
+        112,
+        145
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "contact_info",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_erc_limits",
+      "discriminator": [
+        235,
+        208,
+        197,
+        149,
+        62,
+        109,
+        254,
+        110
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "min_energy_amount",
+          "type": "u64"
+        },
+        {
+          "name": "max_erc_amount",
+          "type": "u64"
+        },
+        {
+          "name": "erc_validity_period",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "update_governance_config",
+      "discriminator": [
+        140,
+        45,
+        181,
+        17,
+        77,
+        67,
+        157,
+        248
+      ],
+      "accounts": [
+        {
+          "name": "poa_config",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "erc_validation_enabled",
+          "type": "bool"
+        },
+        {
+          "name": "allow_certificate_transfers",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "validate_erc_for_trading",
+      "discriminator": [
+        9,
+        215,
+        176,
+        63,
+        247,
+        150,
+        72,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "poa_config"
+        },
+        {
+          "name": "erc_certificate",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ErcCertificate",
+      "discriminator": [
+        83,
+        161,
+        134,
+        16,
+        240,
+        92,
+        186,
+        157
+      ]
+    },
+    {
+      "name": "PoAConfig",
+      "discriminator": [
+        119,
+        6,
+        28,
+        138,
+        199,
+        43,
+        5,
+        184
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "AuthorityChangeApproved",
+      "discriminator": [
+        134,
+        71,
+        45,
+        242,
+        232,
+        179,
+        79,
+        167
+      ]
+    },
+    {
+      "name": "AuthorityChangeCancelled",
+      "discriminator": [
+        188,
+        3,
+        132,
+        49,
+        248,
+        180,
+        98,
+        65
+      ]
+    },
+    {
+      "name": "AuthorityChangeProposed",
+      "discriminator": [
+        109,
+        230,
+        24,
+        90,
+        150,
+        78,
+        41,
+        3
+      ]
+    },
+    {
+      "name": "AuthorityInfoUpdated",
+      "discriminator": [
+        228,
+        61,
+        181,
+        210,
+        130,
+        130,
+        77,
+        145
+      ]
+    },
+    {
+      "name": "ErcIssued",
+      "discriminator": [
+        61,
+        14,
+        253,
+        164,
+        112,
+        61,
+        180,
+        73
+      ]
+    },
+    {
+      "name": "ErcLimitsUpdated",
+      "discriminator": [
+        117,
+        248,
+        58,
+        88,
+        196,
+        106,
+        198,
+        200
+      ]
+    },
+    {
+      "name": "ErcRevoked",
+      "discriminator": [
+        129,
+        169,
+        125,
+        210,
+        31,
+        250,
+        93,
+        116
+      ]
+    },
+    {
+      "name": "ErcTransferred",
+      "discriminator": [
+        218,
+        158,
+        242,
+        163,
+        19,
+        85,
+        132,
+        191
+      ]
+    },
+    {
+      "name": "ErcValidatedForTrading",
+      "discriminator": [
+        235,
+        179,
+        22,
+        112,
+        115,
+        143,
+        126,
+        29
+      ]
+    },
+    {
+      "name": "GovernanceConfigUpdated",
+      "discriminator": [
+        76,
+        140,
+        190,
+        10,
+        102,
+        221,
+        44,
+        0
+      ]
+    },
+    {
+      "name": "MaintenanceModeUpdated",
+      "discriminator": [
+        111,
+        107,
+        239,
+        85,
+        2,
+        133,
+        144,
+        193
+      ]
+    },
+    {
+      "name": "OracleAuthoritySet",
+      "discriminator": [
+        36,
+        235,
+        5,
+        198,
+        13,
+        136,
+        42,
+        17
+      ]
+    },
+    {
+      "name": "PoAInitialized",
+      "discriminator": [
+        80,
+        195,
+        18,
+        203,
+        105,
+        127,
+        36,
+        126
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "UnauthorizedAuthority",
+      "msg": "Unauthorized authority"
+    },
+    {
+      "code": 6001,
+      "name": "MaintenanceMode",
+      "msg": "System is in maintenance mode"
+    },
+    {
+      "code": 6002,
+      "name": "ErcValidationDisabled",
+      "msg": "ERC validation is disabled"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidErcStatus",
+      "msg": "Invalid ERC status"
+    },
+    {
+      "code": 6004,
+      "name": "AlreadyValidated",
+      "msg": "ERC already validated"
+    },
+    {
+      "code": 6005,
+      "name": "BelowMinimumEnergy",
+      "msg": "Energy amount below minimum required"
+    },
+    {
+      "code": 6006,
+      "name": "ExceedsMaximumEnergy",
+      "msg": "Energy amount exceeds maximum allowed"
+    },
+    {
+      "code": 6007,
+      "name": "CertificateIdTooLong",
+      "msg": "Certificate ID too long"
+    },
+    {
+      "code": 6008,
+      "name": "SourceNameTooLong",
+      "msg": "Renewable source name too long"
+    },
+    {
+      "code": 6009,
+      "name": "ErcExpired",
+      "msg": "ERC certificate has expired"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidMinimumEnergy",
+      "msg": "Invalid minimum energy amount"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidMaximumEnergy",
+      "msg": "Invalid maximum energy amount"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidValidityPeriod",
+      "msg": "Invalid validity period"
+    },
+    {
+      "code": 6013,
+      "name": "ContactInfoTooLong",
+      "msg": "Contact information too long"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidOracleConfidence",
+      "msg": "Invalid oracle confidence score (must be 0-100)"
+    },
+    {
+      "code": 6015,
+      "name": "OracleValidationRequired",
+      "msg": "Oracle validation required but not configured"
+    },
+    {
+      "code": 6016,
+      "name": "TransfersNotAllowed",
+      "msg": "Certificate transfers not allowed"
+    },
+    {
+      "code": 6017,
+      "name": "InsufficientUnclaimedGeneration",
+      "msg": "Insufficient unclaimed generation for ERC issuance"
+    },
+    {
+      "code": 6018,
+      "name": "AlreadyRevoked",
+      "msg": "Certificate already revoked"
+    },
+    {
+      "code": 6019,
+      "name": "RevocationReasonRequired",
+      "msg": "Revocation reason required"
+    },
+    {
+      "code": 6020,
+      "name": "InvalidRecipient",
+      "msg": "Invalid transfer recipient"
+    },
+    {
+      "code": 6021,
+      "name": "CannotTransferToSelf",
+      "msg": "Cannot transfer to self"
+    },
+    {
+      "code": 6022,
+      "name": "NotValidatedForTrading",
+      "msg": "Certificate not validated for trading"
+    },
+    {
+      "code": 6023,
+      "name": "AuthorityChangePending",
+      "msg": "Authority change already pending"
+    },
+    {
+      "code": 6024,
+      "name": "NoAuthorityChangePending",
+      "msg": "No authority change pending"
+    },
+    {
+      "code": 6025,
+      "name": "InvalidPendingAuthority",
+      "msg": "Invalid pending authority"
+    },
+    {
+      "code": 6026,
+      "name": "AuthorityChangeExpired",
+      "msg": "Authority change expired"
+    },
+    {
+      "code": 6027,
+      "name": "OracleConfidenceTooLow",
+      "msg": "Oracle confidence below minimum threshold"
+    },
+    {
+      "code": 6028,
+      "name": "InvalidOracleAuthority",
+      "msg": "Invalid oracle authority"
+    },
+    {
+      "code": 6029,
+      "name": "ValidationDataTooLong",
+      "msg": "Validation data too long"
+    },
+    {
+      "code": 6030,
+      "name": "InvalidMeterAccount",
+      "msg": "Invalid meter account"
+    }
+  ],
+  "types": [
+    {
+      "name": "AuthorityChangeApproved",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "old_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityChangeCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "cancelled_proposal",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityChangeProposed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "current_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "proposed_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "expires_at",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "AuthorityInfoUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_contact",
+            "type": "string"
+          },
+          {
+            "name": "new_contact",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcCertificate",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "certificate_id",
+            "docs": [
+              "Unique certificate identifier - FIXED: 64 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "id_len",
+            "type": "u8"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Issuing authority (Engineering Department)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "owner",
+            "docs": [
+              "Current owner of the certificate (for transfers)"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "energy_amount",
+            "docs": [
+              "Amount of renewable energy (kWh)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "renewable_source",
+            "docs": [
+              "Source of renewable energy (solar, wind, etc.) - FIXED: 64 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "source_len",
+            "type": "u8"
+          },
+          {
+            "name": "validation_data",
+            "docs": [
+              "Additional validation data - FIXED: 256 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                256
+              ]
+            }
+          },
+          {
+            "name": "data_len",
+            "type": "u16"
+          },
+          {
+            "name": "issued_at",
+            "docs": [
+              "When the certificate was issued"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "expires_at",
+            "docs": [
+              "When the certificate expires"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "status",
+            "docs": [
+              "Current status of the certificate"
+            ],
+            "type": {
+              "defined": {
+                "name": "ErcStatus"
+              }
+            }
+          },
+          {
+            "name": "validated_for_trading",
+            "docs": [
+              "Whether validated for trading"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "trading_validated_at",
+            "docs": [
+              "When validated for trading"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "revocation_reason",
+            "docs": [
+              "Revocation reason (if revoked) - FIXED: 128 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "reason_len",
+            "type": "u8"
+          },
+          {
+            "name": "revoked_at",
+            "docs": [
+              "When revoked"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "transfer_count",
+            "docs": [
+              "Number of times transferred"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "last_transferred_at",
+            "docs": [
+              "Last transfer timestamp"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcIssued",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "certificate_id",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "energy_amount",
+            "type": "u64"
+          },
+          {
+            "name": "renewable_source",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcLimitsUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_min",
+            "type": "u64"
+          },
+          {
+            "name": "new_min",
+            "type": "u64"
+          },
+          {
+            "name": "old_max",
+            "type": "u64"
+          },
+          {
+            "name": "new_max",
+            "type": "u64"
+          },
+          {
+            "name": "old_validity",
+            "type": "i64"
+          },
+          {
+            "name": "new_validity",
+            "type": "i64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcRevoked",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "certificate_id",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "reason",
+            "type": "string"
+          },
+          {
+            "name": "energy_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Valid"
+          },
+          {
+            "name": "Expired"
+          },
+          {
+            "name": "Revoked"
+          },
+          {
+            "name": "Pending"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcTransferred",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "certificate_id",
+            "type": "string"
+          },
+          {
+            "name": "from_owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "to_owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "energy_amount",
+            "type": "u64"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ErcValidatedForTrading",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "certificate_id",
+            "type": "string"
+          },
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GovernanceConfigUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "erc_validation_enabled",
+            "type": "bool"
+          },
+          {
+            "name": "allow_certificate_transfers",
+            "type": "bool"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "GovernanceStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "total_ercs_issued",
+            "type": "u64"
+          },
+          {
+            "name": "total_ercs_validated",
+            "type": "u64"
+          },
+          {
+            "name": "total_ercs_revoked",
+            "type": "u64"
+          },
+          {
+            "name": "total_energy_certified",
+            "type": "u64"
+          },
+          {
+            "name": "authority_name",
+            "type": "string"
+          },
+          {
+            "name": "contact_info",
+            "type": "string"
+          },
+          {
+            "name": "erc_validation_enabled",
+            "type": "bool"
+          },
+          {
+            "name": "maintenance_mode",
+            "type": "bool"
+          },
+          {
+            "name": "min_energy_amount",
+            "type": "u64"
+          },
+          {
+            "name": "max_erc_amount",
+            "type": "u64"
+          },
+          {
+            "name": "erc_validity_period",
+            "type": "i64"
+          },
+          {
+            "name": "require_oracle_validation",
+            "type": "bool"
+          },
+          {
+            "name": "allow_certificate_transfers",
+            "type": "bool"
+          },
+          {
+            "name": "delegation_enabled",
+            "type": "bool"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "last_updated",
+            "type": "i64"
+          },
+          {
+            "name": "last_erc_issued_at",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "pending_authority_change",
+            "type": "bool"
+          },
+          {
+            "name": "pending_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "pending_authority_expires_at",
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "oracle_authority",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "min_oracle_confidence",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaintenanceModeUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "maintenance_enabled",
+            "type": "bool"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "OracleAuthoritySet",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "oracle_authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "min_confidence",
+            "type": "u8"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoAConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Single authority - REC certifying entity"
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "authority_name",
+            "docs": [
+              "Authority name (e.g., \"REC\") - FIXED: 64 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                64
+              ]
+            }
+          },
+          {
+            "name": "name_len",
+            "type": "u8"
+          },
+          {
+            "name": "contact_info",
+            "docs": [
+              "Authority contact information - FIXED: 128 bytes"
+            ],
+            "type": {
+              "array": [
+                "u8",
+                128
+              ]
+            }
+          },
+          {
+            "name": "contact_len",
+            "type": "u8"
+          },
+          {
+            "name": "version",
+            "docs": [
+              "Governance version for upgrades"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "maintenance_mode",
+            "docs": [
+              "System maintenance mode"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "erc_validation_enabled",
+            "docs": [
+              "Whether ERC validation is enabled"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "min_energy_amount",
+            "docs": [
+              "Minimum energy amount for ERC issuance (kWh)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "max_erc_amount",
+            "docs": [
+              "Maximum ERC amount per certificate (kWh)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "erc_validity_period",
+            "docs": [
+              "ERC certificate validity period (seconds)"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "auto_revoke_expired",
+            "docs": [
+              "Auto-revoke expired certificates"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "require_oracle_validation",
+            "docs": [
+              "Require oracle validation for ERC issuance"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "delegation_enabled",
+            "docs": [
+              "Whether the authority can delegate ERC validation"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "oracle_authority",
+            "docs": [
+              "Oracle authority for AMI data validation"
+            ],
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "min_oracle_confidence",
+            "docs": [
+              "Minimum confidence score for oracle validation (0-100)"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "allow_certificate_transfers",
+            "docs": [
+              "Allow certificate transfers between accounts"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "total_ercs_issued",
+            "docs": [
+              "Total ERCs issued since inception"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_ercs_validated",
+            "docs": [
+              "Total ERCs validated for trading"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_ercs_revoked",
+            "docs": [
+              "Total ERCs revoked"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "total_energy_certified",
+            "docs": [
+              "Total energy certified (kWh)"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "When governance was initialized"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "last_updated",
+            "docs": [
+              "Last configuration update"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "last_erc_issued_at",
+            "docs": [
+              "Last ERC issued timestamp"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "pending_authority",
+            "docs": [
+              "Pending new authority (for 2-step transfer)"
+            ],
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "pending_authority_proposed_at",
+            "docs": [
+              "When the pending authority change was proposed"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          },
+          {
+            "name": "pending_authority_expires_at",
+            "docs": [
+              "When the pending authority change expires (48 hours)"
+            ],
+            "type": {
+              "option": "i64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoAInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "authority_name",
+            "type": "string"
+          },
+          {
+            "name": "timestamp",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}
