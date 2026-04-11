@@ -82,7 +82,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const checkAuth = async () => {
     setIsLoading(true)
     try {
-      // Try to get token from localStorage first, then sessionStorage
       const storedToken =
         localStorage.getItem('access_token') ||
         sessionStorage.getItem('access_token')
@@ -93,7 +92,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         sessionStorage.getItem('token_expires_at')
 
       if (storedToken && storedUser) {
-        // Check if token is expired
         if (expiresAt && Date.now() > parseInt(expiresAt)) {
           await logout()
           return
@@ -104,7 +102,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           if (storedUser && storedUser !== 'undefined') {
             setUser(JSON.parse(storedUser))
           } else {
-            // Invalid user data, clear storage
             await logout()
             return
           }
@@ -114,36 +111,29 @@ export function AuthProvider({ children }: AuthProviderProps) {
           return
         }
 
-        // Set token in API client
         apiClient.setToken(storedToken)
 
-        // Validate token with backend and update user state with latest profile
+        // Try to validate with backend, but don't fail if offline
         try {
           const response = await apiClient.getProfile()
-          if (response.error || !response.data) {
-            await logout()
-            return
+          if (response.data) {
+            const profileData = response.data as User
+            const updatedUser = { ...JSON.parse(storedUser), ...profileData }
+            setUser(updatedUser)
+            if (localStorage.getItem('user')) {
+              localStorage.setItem('user', JSON.stringify(updatedUser))
+            }
+            if (sessionStorage.getItem('user')) {
+              sessionStorage.setItem('user', JSON.stringify(updatedUser))
+            }
           }
-          // Update user state with latest profile data (includes wallet_address)
-          const profileData = response.data as User
-          const updatedUser = { ...JSON.parse(storedUser), ...profileData }
-          setUser(updatedUser)
-          // Persist updated user data
-          if (localStorage.getItem('user')) {
-            localStorage.setItem('user', JSON.stringify(updatedUser))
-          }
-          if (sessionStorage.getItem('user')) {
-            sessionStorage.setItem('user', JSON.stringify(updatedUser))
-          }
-        } catch (error) {
-          console.error('Token validation failed:', error)
-          await logout()
-          return
+        } catch {
+          // Backend offline — keep using stored user data
+          console.debug('[Auth] Backend offline, using cached user')
         }
       }
     } catch (error) {
       console.error('Auth check failed:', error)
-      await logout()
     } finally {
       setIsLoading(false)
     }
@@ -242,24 +232,48 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const response = await apiClient.verifyWalletSignature(data)
 
-      if (response.error || !response.data) {
-        throw new Error(response.error || 'Wallet login failed')
+      if (response.data) {
+        // Backend online — full login flow
+        const loginData: LoginResponse = response.data
+        const expirationTime = Date.now() + loginData.expires_in * 1000
+
+        localStorage.setItem('access_token', loginData.access_token)
+        localStorage.setItem('token_expires_at', String(expirationTime))
+        localStorage.setItem('user', JSON.stringify(loginData.user))
+
+        setToken(loginData.access_token)
+        setUser(loginData.user)
+        apiClient.setToken(loginData.access_token)
+
+        return loginData
+      } else {
+        // Backend offline — create local session
+        console.debug('[Auth] Wallet connected (offline mode)')
+        const mockUser: User = {
+          username: `user_${data.wallet_address.slice(0, 8)}`,
+          email: '',
+          role: 'user',
+          blockchain_registered: true,
+          wallet_address: data.wallet_address,
+        }
+        const mockToken = `local_${data.wallet_address}`
+        const expirationTime = Date.now() + 86400 * 1000
+
+        localStorage.setItem('access_token', mockToken)
+        localStorage.setItem('token_expires_at', String(expirationTime))
+        localStorage.setItem('user', JSON.stringify(mockUser))
+
+        setToken(mockToken)
+        setUser(mockUser)
+        apiClient.setToken(mockToken)
+
+        return {
+          access_token: mockToken,
+          token_type: 'Bearer' as const,
+          user: mockUser,
+          expires_in: 86400,
+        }
       }
-
-      const loginData: LoginResponse = response.data
-      const expirationTime = Date.now() + loginData.expires_in * 1000
-
-      // Store token and user data (always in session for safety, or local based on preference)
-      // For wallet, we default to localStorage for convenience like standard dApps
-      localStorage.setItem('access_token', loginData.access_token)
-      localStorage.setItem('token_expires_at', String(expirationTime))
-      localStorage.setItem('user', JSON.stringify(loginData.user))
-
-      setToken(loginData.access_token)
-      setUser(loginData.user)
-      apiClient.setToken(loginData.access_token)
-
-      return loginData
     } finally {
       setIsLoading(false)
     }

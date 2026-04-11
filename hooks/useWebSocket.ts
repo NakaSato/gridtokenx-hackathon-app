@@ -51,11 +51,7 @@ export function useWebSocket(
 
     return () => {
       clearInterval(checkConnection)
-      if (isUsingPublicRef.current) {
-        defaultWSManager.disconnectPublic()
-      } else {
-        defaultWSManager.disconnect(channel)
-      }
+      defaultWSManager.disconnect(channel)
     }
   }, [channel, effectiveToken, autoConnect])
 

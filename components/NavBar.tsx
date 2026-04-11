@@ -6,7 +6,9 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import Image, { type StaticImageData } from 'next/image'
 import {
   Activity,
+  ArrowDownUp,
   BookOpenText,
+  Cpu,
   ChartLine,
   ExternalLink,
   MessagesSquare,
@@ -105,6 +107,19 @@ const NAV_ITEMS: NavItem[] = [
     href: '/futures',
     icon: <TrendingUp size={16} />,
     badge: { text: 'BETA', variant: 'beta' },
+    requiresAuth: true,
+  },
+  {
+    name: 'AI Credits',
+    href: '/credits',
+    icon: <Cpu size={16} />,
+    badge: { text: 'NEW', variant: 'new' },
+    requiresAuth: true,
+  },
+  {
+    name: 'Swap',
+    href: '/swap',
+    icon: <ArrowDownUp size={16} />,
     requiresAuth: true,
   },
   {

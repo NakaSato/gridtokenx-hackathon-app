@@ -35,6 +35,24 @@
 - **Governance**: DAO governance with proposals and voting
 - **Wallet Integration**: Phantom, Solflare, Trust, SafePal
 
+### Token Architecture: GRID vs GRX
+
+The dual-token model separates the **energy-settlement layer** (GRID) from the **AI-credit layer** (GRX), with a **stablecoin buffer** to absorb GRX price volatility before AI credit redemption:
+
+| Attribute | GRID Token | GRX Token |
+|-----------|-----------|-----------|
+| **Role** | Energy settlement (1 GRID = 1 kWh P2P solar) | AI credit access (tradable, DEX-priced) |
+| **Issuance** | Dynamic — 1 GRID minted per 1 kWh verified P2P trade | Fixed — 100,000,000 total at genesis, never increased |
+| **Backing** | 1:1 energy backing | Market price — determined by Solana DEX order book / AMM |
+| **Price** | Platform-internal | **Floating** — set by DEX market |
+| **Supply** | **Inflationary** — grows with energy volume | **Deflationary** — burned on every AI redemption |
+| **Regulatory** | Platform-internal accounting unit | Thai SEC Group 1 utility token (consumptive) |
+| **Convert** | GRID → GRX (one-way swap) | GRX → Stablecoin (DEX) → AI Credits (burn; **no reverse**) |
+
+**Atomic clearing → auto-swap (default):** Both P2P clearing price and GRX DEX price float. The entire conversion chain executes atomically in one Solana transaction, so **prosumers never hold GRX by default** — they receive USDC instantly at the clearing-time rate. No double price risk.
+
+**Optional: hold GRX** — prosumers can opt-in to receive GRX instead of USDC (speculate on appreciation). Active choice required.
+
 ---
 
 ## Project Structure
@@ -73,6 +91,7 @@ gridtokenx-trading/
 │   ├── LendingProvider.tsx       # ZK-collateralized lending
 │   ├── MarketplaceProvider.tsx   # Confidential marketplace
 │   └── SocketContext.tsx         # WebSocket management
+├── hooks/                        # Custom React hooks
 ├── lib/                          # Services and utilities
 │   ├── api-client.ts             # REST API client (900+ lines)
 │   ├── wasm-bridge.ts            # WASM bridge for crypto/pricing
@@ -83,7 +102,6 @@ gridtokenx-trading/
 │   ├── zk-utils.ts               # Zero-knowledge proof utilities
 │   ├── config.ts                 # Centralized configuration
 │   └── idl/                      # Anchor IDL files
-├── hooks/                        # Custom React hooks
 ├── types/                        # TypeScript type definitions
 ├── utils/                        # Utility functions
 ├── public/                       # Static assets

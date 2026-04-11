@@ -8,7 +8,11 @@ import { useMemo, useState, useEffect } from 'react'
 import { ContractProvider } from './contractProvider'
 
 export default ({ children }: { children: React.ReactNode }) => {
-  const network = WalletAdapterNetwork.Mainnet
+  const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK === 'devnet'
+    ? WalletAdapterNetwork.Devnet
+    : process.env.NEXT_PUBLIC_SOLANA_NETWORK === 'localnet'
+    ? WalletAdapterNetwork.Devnet // no localnet option, use devnet
+    : WalletAdapterNetwork.Mainnet
 
   // Start with empty wallets to avoid including heavy libraries in initial bundle
   const [wallets, setWallets] = useState<Adapter[]>([])
@@ -34,7 +38,9 @@ export default ({ children }: { children: React.ReactNode }) => {
           new TrustWalletAdapter(),
           new SafePalWalletAdapter(),
           // new TorusWalletAdapter(),
-        ]
+        ].filter((adapter) =>
+          !adapter.name.toLowerCase().includes('metamask')
+        )
 
         setWallets(loadedWallets)
       } catch (error) {
@@ -52,7 +58,7 @@ export default ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={wallets} autoConnect>
+      <WalletProvider wallets={wallets} autoConnect={false}>
         <ContractProvider>{children}</ContractProvider>
       </WalletProvider>
     </ConnectionProvider>

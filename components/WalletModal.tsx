@@ -13,6 +13,7 @@ import {
 } from './ui/dialog'
 import WalletList from './WalletList'
 import { useWallet } from '@solana/wallet-adapter-react'
+import { PublicKey } from '@solana/web3.js'
 import toast from 'react-hot-toast'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
@@ -39,7 +40,7 @@ export const allWallets: Wallet[] = [
 
 export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
   const router = useRouter()
-  const { select, wallets } = useWallet()
+  const { select, wallets, publicKey } = useWallet()
   const {
     login,
     loginWithWallet,
@@ -79,11 +80,23 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
     async (walletName: string, iconPath: string) => {
       if (isConnecting) return
 
+      // Block MetaMask — it's an EVM wallet and doesn't support Solana natively
+      if (walletName.toLowerCase().includes('metamask')) {
+        toast.error(
+          'MetaMask is not a Solana wallet. Please use Phantom, Solflare, or another Solana-compatible wallet.'
+        )
+        return
+      }
+
       setIsConnecting(true)
-      let walletConnected = false
 
       try {
-        const wallet = wallets.find(
+        // Filter out MetaMask from available wallets (EVM, not Solana)
+        const solanaWallets = wallets.filter(
+          (w) => !w.adapter.name.toLowerCase().includes('metamask')
+        )
+
+        const wallet = solanaWallets.find(
           (value) => value.adapter.name === walletName
         )
 
@@ -100,7 +113,6 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
           toast.error(
             `${walletName} wallet is not installed. Please install it first.`
           )
-          // Open wallet installation page
           if (walletName === 'Phantom') {
             window.open('https://phantom.app/', '_blank')
           } else if (walletName === 'Solflare') {
@@ -120,25 +132,23 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
           return
         }
 
+        console.log('Connecting to wallet:', walletName)
+
+        // Use select() — the WalletProvider handles the actual connection
         select(wallet.adapter.name)
-        await wallet.adapter.connect()
-        walletConnected = true
 
-        // Wait for publicKey to be available with retry logic
-        let publicKey = wallet.adapter.publicKey
-        let retries = 0
-        const maxRetries = 10
-
-        while (!publicKey && retries < maxRetries) {
-          await new Promise((resolve) => setTimeout(resolve, 100))
-          publicKey = wallet.adapter.publicKey
-          retries++
+        // Wait for publicKey from useWallet() hook (the WalletProvider's instance)
+        const pollForConnection = async (): Promise<PublicKey | null> => {
+          for (let i = 0; i < 40; i++) {
+            if (publicKey) return publicKey
+            await new Promise((r) => setTimeout(r, 250))
+          }
+          return null
         }
 
-        if (!publicKey) {
-          toast.error(
-            'Wallet connected but public key not available. Please try again.'
-          )
+        const pk = await pollForConnection()
+        if (!pk) {
+          toast.error('Wallet connection timed out. Please try again.')
           return
         }
 
@@ -147,14 +157,13 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
         // If user is logged in, update their wallet address in the backend
         if (user) {
           try {
-            await updateWallet(publicKey.toString())
+            await updateWallet(pk.toString())
             toast.success('Wallet linked to your account')
           } catch (error) {
             console.error('Failed to link wallet:', error)
             const errorMsg =
               error instanceof Error ? error.message : 'Unknown error'
             toast.error(`Failed to link wallet to account: ${errorMsg}`)
-            // Don't return here - wallet is still connected, just not linked
           }
         } else if (!isAuthenticated) {
           // If not logged in, try to sign in with wallet
@@ -184,22 +193,19 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
             const signatureStr = bs58.encode(signature)
 
             await loginWithWallet({
-              wallet_address: publicKey.toString(),
+              wallet_address: pk.toString(),
               signature: signatureStr,
               message: messageStr,
               timestamp,
             })
 
             toast.success('Signed in successfully')
-            // Add a small delay for state update
             await new Promise((resolve) => setTimeout(resolve, 500))
             router.refresh()
           } catch (error: unknown) {
             toast.dismiss('signing-message')
             console.error('Wallet login failed:', error)
 
-            // If user rejected signature, we should probably disconnect to reset state
-            // or just let them be "connected" but not "signed in"
             const errorMessage =
               error instanceof Error ? error.message : 'Unknown error'
             if (errorMessage.includes('User rejected')) {
@@ -214,14 +220,13 @@ export default function WalletModal({ isOpen, onClose }: WalletModalProps) {
       } catch (error: unknown) {
         console.error('Wallet connection error:', error)
 
-        // Handle specific wallet errors
         let errorMessage = 'Failed to connect'
         const err = error as { name?: string; message?: string }
 
         if (err?.name === 'WalletNotReadyError') {
           errorMessage = `${walletName} wallet is not ready. Please make sure it's installed and unlocked.`
         } else if (err?.name === 'WalletConnectionError') {
-          errorMessage = 'Connection failed. Please try again.'
+          errorMessage = `Connection failed: ${err.message || 'Please try again.'}`
         } else if (err?.name === 'WalletDisconnectedError') {
           errorMessage = 'Wallet was disconnected. Please try again.'
         } else if (err?.message) {

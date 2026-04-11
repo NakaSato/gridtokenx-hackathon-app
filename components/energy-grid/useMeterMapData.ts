@@ -116,18 +116,22 @@ export function useMeterMapData(options: UseMeterMapDataOptions = {}): UseMeterM
         queryFn: async () => {
             const response = await defaultApiClient.getPublicMeters()
             if (response.error) throw new Error(response.error)
-            return response.data || []
+            const data = response.data
+            // Ensure we always return an array
+            if (Array.isArray(data)) return data
+            if (data && typeof data === 'object' && Array.isArray((data as any).meters)) return (data as any).meters
+            return []
         },
         refetchInterval: refreshIntervalMs > 0 ? refreshIntervalMs : false,
     })
 
     // Convert meters to EnergyNodes with generated unique IDs - only include active (verified) meters
-    const realMeterNodes: EnergyNode[] = useMemo(() =>
-        meters
-            .filter(meter => meter.is_verified) // Only show active/verified meters on map
-            .map((meter, index) => meterToEnergyNode(meter, index)),
-        [meters]
-    )
+    const realMeterNodes: EnergyNode[] = useMemo(() => {
+        const metersArray = Array.isArray(meters) ? meters : []
+        return metersArray
+            .filter(meter => meter.is_verified)
+            .map((meter, index) => meterToEnergyNode(meter, index))
+    }, [meters])
 
     // Combine with static nodes if requested
     const nodes: EnergyNode[] = useMemo(() =>

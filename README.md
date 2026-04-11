@@ -1,16 +1,42 @@
 # GridTokenX Trading Platform
 
-> **Version**: 0.1.2  
-> **Last Updated**: February 2026  
-> **Framework**: Next.js 16 (App Router, Turbopack)  
-> **Runtime**: React 19, TypeScript 5.9  
+> GridTokenX turns Thai solar prosumers' surplus electricity into frontier AI computing power — rewarding clean energy contribution with access to Claude and GPT.
+
+> **Version**: 0.1.2
+> **Last Updated**: April 2026
+> **Framework**: Next.js 16 (App Router, Turbopack)
+> **Runtime**: React 19, TypeScript 5.9
 > **License**: MIT
 
 ---
 
 ## Overview
 
-The **GridTokenX Trading Platform** is the web frontend for the GridTokenX P2P Energy Trading ecosystem. Built with **Next.js** and the **App Router**, it provides a comprehensive interface for energy trading, portfolio management, smart meter integration, and blockchain interaction on Solana.
+The **GridTokenX Trading Platform** is the web frontend for the GridTokenX P2P Energy Trading ecosystem — a dual-token economy where solar prosumers earn **GRID** tokens from selling surplus energy, convert to **GRX** utility tokens (1 kWh = 1 GRX), and redeem GRX for AI computing credits (Claude, GPT).
+
+Built with **Next.js** and the **App Router**, it provides a comprehensive interface for energy trading, portfolio management, smart meter integration, and blockchain interaction on Solana.
+
+### The Value Chain
+
+```
+Rooftop solar → P2P energy trade → GRID token → GRX token → AI credit (burned) → frontier AI access
+```
+
+### Token Architecture: GRID vs GRX
+
+| Attribute | GRID Token | GRX Token |
+|-----------|-----------|-----------|
+| **Role** | Energy settlement (1 GRID = 1 kWh P2P solar) | AI credit access (tradable, DEX-priced) |
+| **Issuance** | Dynamic — minted per kWh verified P2P trade | Fixed — 100,000,000 total, never increased |
+| **Backing** | 1:1 energy backing | Market price — Solana DEX order book / AMM |
+| **Price** | Platform-internal | **Floating** — set by DEX market |
+| **Supply** | **Inflationary** — grows with energy volume | **Deflationary** — burned on every AI redemption |
+| **Regulatory** | Platform-internal accounting unit | Thai SEC Group 1 utility token (consumptive) |
+| **Convert** | GRID → GRX (one-way swap) | GRX → Stablecoin (DEX) → AI Credits (burn; **no reverse**) |
+
+**Atomic clearing → auto-swap (default):** Entire conversion chain runs in one Solana transaction. Prosumers receive USDC instantly — no GRX price exposure.
+
+**Optional: hold GRX** — opt-in to receive GRX instead (speculate on appreciation). Active choice required.
 
 ### Key Features
 
@@ -274,6 +300,26 @@ bun run build
 docker build -t gridtokenx-trading .
 docker run -p 3000:3000 gridtokenx-trading
 ```
+
+### Live Deployment
+
+| URL | Purpose |
+|-----|---------|
+| **[hackathon.gridtokenx.xyz](https://hackathon.gridtokenx.xyz)** | Hackathon demo (canonical → app.gridtokenx.com) |
+| **app.gridtokenx.com** | Production canonical domain |
+
+**Deployed Routes:**
+
+| Route | Priority |
+|-------|----------|
+| `/` | 1.0 (main trading dashboard) |
+| `/portfolio` | 0.8 |
+| `/futures` | 0.8 |
+| `/meter` | 0.8 |
+| `/privacy-policy` | 0.8 |
+| `/terms-and-conditions` | 0.8 |
+
+**Site Theme:** Dark-purple · Poppins font · @GridTokenX
 
 ---
 

@@ -1,1300 +1,150 @@
 {
-  "address": "DVoD5K5YRuXXF54a3b6r282jRD8RmtVHGfpw55DHFVDe",
+  "address": "C5HLtbZHgwVU2oMirgd9f62Zeig7hZFKyJuB9AqVcsn6",
   "metadata": {
     "name": "registry",
     "version": "0.1.1",
-    "spec": "0.1.0",
-    "description": "Registry program for P2P Energy Trading - User and meter management"
+    "spec": "0.1.0"
   },
   "instructions": [
+    { "name": "initialize", "discriminator": [175,175,109,31,13,152,155,237], "accounts": [], "args": [] },
     {
-      "name": "deactivate_meter",
-      "docs": [
-        "Deactivate a meter permanently (owner only)"
-      ],
-      "discriminator": [
-        161,
-        143,
-        238,
-        57,
-        176,
-        50,
-        169,
-        102
-      ],
+      "name": "initialize_shard",
+      "discriminator": [100,96,88,58,225,178,9,147],
       "accounts": [
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "user_account",
-          "writable": true
-        },
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "owner",
-          "signer": true
-        }
+        { "name": "shard", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "system_program", "writable": false, "signer": false }
       ],
-      "args": []
+      "args": [{ "name": "shard_id", "type": "u8" }]
     },
     {
-      "name": "get_unsettled_balance",
-      "docs": [
-        "Calculate unsettled net generation ready for tokenization",
-        "This is a view function that returns how much energy can be minted as GRID tokens"
-      ],
-      "discriminator": [
-        178,
-        120,
-        95,
-        9,
-        18,
-        81,
-        181,
-        83
-      ],
+      "name": "register_user",
+      "discriminator": [2,241,150,223,99,214,116,97],
       "accounts": [
-        {
-          "name": "meter_account"
-        }
-      ],
-      "args": [],
-      "returns": "u64"
-    },
-    {
-      "name": "initialize",
-      "docs": [
-        "Initialize the registry with REC authority"
-      ],
-      "discriminator": [
-        175,
-        175,
-        109,
-        31,
-        13,
-        152,
-        155,
-        237
-      ],
-      "accounts": [
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "authority",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program"
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "is_valid_meter",
-      "docs": [
-        "Verify if a meter is valid and active"
-      ],
-      "discriminator": [
-        151,
-        114,
-        52,
-        252,
-        238,
-        233,
-        81,
-        91
-      ],
-      "accounts": [
-        {
-          "name": "meter_account"
-        }
-      ],
-      "args": [],
-      "returns": "bool"
-    },
-    {
-      "name": "is_valid_user",
-      "docs": [
-        "Verify if a user is valid and active"
-      ],
-      "discriminator": [
-        204,
-        118,
-        77,
-        53,
-        39,
-        63,
-        237,
-        250
-      ],
-      "accounts": [
-        {
-          "name": "user_account"
-        }
-      ],
-      "args": [],
-      "returns": "bool"
-    },
-    {
-      "name": "mark_erc_claimed",
-      "docs": [
-        "Mark energy as claimed for ERC issuance (authorized by governance/oracle)"
-      ],
-      "discriminator": [
-        236,
-        101,
-        147,
-        119,
-        124,
-        153,
-        149,
-        198
-      ],
-      "accounts": [
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "registry"
-        },
-        {
-          "name": "authority",
-          "signer": true
-        }
+        { "name": "user", "writable": true, "signer": false },
+        { "name": "shard", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "system_program", "writable": false, "signer": false }
       ],
       "args": [
-        {
-          "name": "amount",
-          "type": "u64"
-        }
+        { "name": "user_type", "type": "u8" },
+        { "name": "lat_e7", "type": "i32" },
+        { "name": "long_e7", "type": "i32" },
+        { "name": "h3_index", "type": "u64" },
+        { "name": "shard_id", "type": "u8" }
       ]
     },
     {
       "name": "register_meter",
-      "docs": [
-        "Register a smart meter for an existing user"
-      ],
-      "discriminator": [
-        49,
-        106,
-        87,
-        72,
-        138,
-        214,
-        224,
-        125
-      ],
+      "discriminator": [49,106,87,72,138,214,224,125],
       "accounts": [
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "user_account",
-          "writable": true
-        },
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "owner",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program"
-        }
+        { "name": "user", "writable": true, "signer": false },
+        { "name": "meter", "writable": true, "signer": false },
+        { "name": "shard", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true },
+        { "name": "system_program", "writable": false, "signer": false }
       ],
       "args": [
-        {
-          "name": "meter_id",
-          "type": "string"
-        },
-        {
-          "name": "meter_type",
-          "type": {
-            "defined": {
-              "name": "MeterType"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "register_user",
-      "docs": [
-        "Register a new user in the P2P energy trading system",
-        "Also automatically distributes airdrop amount of GRID tokens to the user"
-      ],
-      "discriminator": [
-        2,
-        241,
-        150,
-        223,
-        99,
-        214,
-        116,
-        97
-      ],
-      "accounts": [
-        {
-          "name": "user_account",
-          "writable": true
-        },
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "authority",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "energy_token_program"
-        },
-        {
-          "name": "mint",
-          "writable": true
-        },
-        {
-          "name": "token_info",
-          "writable": true
-        },
-        {
-          "name": "user_token_account",
-          "writable": true
-        },
-        {
-          "name": "token_program"
-        },
-        {
-          "name": "associated_token_program",
-          "docs": [
-            "Associated Token Program"
-          ]
-        },
-        {
-          "name": "system_program"
-        }
-      ],
-      "args": [
-        {
-          "name": "user_type",
-          "type": {
-            "defined": {
-              "name": "UserType"
-            }
-          }
-        },
-        {
-          "name": "lat_e7",
-          "type": "i32"
-        },
-        {
-          "name": "long_e7",
-          "type": "i32"
-        },
-        {
-          "name": "h3_index",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "set_meter_status",
-      "docs": [
-        "Set meter status (owner or authority)"
-      ],
-      "discriminator": [
-        201,
-        50,
-        114,
-        251,
-        180,
-        1,
-        95,
-        124
-      ],
-      "accounts": [
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "authority",
-          "signer": true
-        }
-      ],
-      "args": [
-        {
-          "name": "new_status",
-          "type": {
-            "defined": {
-              "name": "MeterStatus"
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "set_oracle_authority",
-      "docs": [
-        "Set the oracle authority"
-      ],
-      "discriminator": [
-        39,
-        155,
-        66,
-        106,
-        213,
-        226,
-        114,
-        174
-      ],
-      "accounts": [
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "authority",
-          "signer": true
-        }
-      ],
-      "args": [
-        {
-          "name": "oracle",
-          "type": "pubkey"
-        }
+        { "name": "meter_address", "type": "publicKey" },
+        { "name": "meter_model", "type": "string" },
+        { "name": "capacity_kw", "type": "u64" },
+        { "name": "shard_id", "type": "u8" }
       ]
     },
     {
       "name": "settle_and_mint_tokens",
-      "docs": [
-        "Settle meter balance and automatically mint GRID tokens via CPI",
-        "This is a convenience function that combines settlement + minting in one transaction"
-      ],
-      "discriminator": [
-        51,
-        103,
-        164,
-        65,
-        160,
-        57,
-        142,
-        220
-      ],
+      "discriminator": [51,103,164,65,160,57,142,220],
       "accounts": [
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "meter_owner",
-          "signer": true
-        },
-        {
-          "name": "token_info",
-          "writable": true
-        },
-        {
-          "name": "mint",
-          "writable": true
-        },
-        {
-          "name": "user_token_account",
-          "writable": true
-        },
-        {
-          "name": "registry",
-          "docs": [
-            "We use the Registry account itself as the authority signer"
-          ],
-          "writable": true
-        },
-        {
-          "name": "energy_token_program",
-          "docs": [
-            "The energy token program"
-          ]
-        },
-        {
-          "name": "token_program"
-        }
+        { "name": "user", "writable": true, "signer": false },
+        { "name": "meter", "writable": true, "signer": false },
+        { "name": "registry", "writable": false, "signer": false },
+        { "name": "token_config", "writable": false, "signer": false },
+        { "name": "grid_mint", "writable": true, "signer": false },
+        { "name": "destination", "writable": true, "signer": false },
+        { "name": "energy_token_program", "writable": false, "signer": false },
+        { "name": "token_program", "writable": false, "signer": false },
+        { "name": "authority", "writable": true, "signer": true }
+      ],
+      "args": [
+        { "name": "energy_amount", "type": "u64" },
+        { "name": "price_per_kwh", "type": "u64" }
+      ]
+    },
+    {
+      "name": "set_meter_status",
+      "discriminator": [5,5,5,5,5,5,5,5],
+      "accounts": [
+        { "name": "meter", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true }
+      ],
+      "args": [{ "name": "new_status", "type": "u8" }]
+    },
+    {
+      "name": "deactivate_meter",
+      "discriminator": [6,6,6,6,6,6,6,6],
+      "accounts": [
+        { "name": "meter", "writable": true, "signer": false },
+        { "name": "authority", "writable": true, "signer": true }
       ],
       "args": []
     },
     {
-      "name": "settle_meter_balance",
-      "docs": [
-        "Settle meter balance and prepare for GRID token minting",
-        "This updates the settled_net_generation tracker to prevent double-minting",
-        "The actual token minting should be called by the energy_token program"
-      ],
-      "discriminator": [
-        178,
-        46,
-        241,
-        202,
-        53,
-        99,
-        79,
-        119
-      ],
+      "name": "is_valid_user",
+      "discriminator": [7,7,7,7,7,7,7,7],
       "accounts": [
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "meter_owner",
-          "signer": true
-        }
+        { "name": "user", "writable": false, "signer": false }
       ],
       "args": [],
-      "returns": "u64"
+      "returns": "bool"
     },
     {
-      "name": "update_meter_reading",
-      "docs": [
-        "Update meter reading (for oracles and authorized services)",
-        "Now requires oracle authorization via registry"
-      ],
-      "discriminator": [
-        192,
-        220,
-        135,
-        23,
-        89,
-        22,
-        163,
-        130
-      ],
+      "name": "is_valid_meter",
+      "discriminator": [8,8,8,8,8,8,8,8],
       "accounts": [
-        {
-          "name": "registry"
-        },
-        {
-          "name": "meter_account",
-          "writable": true
-        },
-        {
-          "name": "oracle_authority",
-          "signer": true
-        }
+        { "name": "meter", "writable": false, "signer": false }
       ],
-      "args": [
-        {
-          "name": "energy_generated",
-          "type": "u64"
-        },
-        {
-          "name": "energy_consumed",
-          "type": "u64"
-        },
-        {
-          "name": "reading_timestamp",
-          "type": "i64"
-        }
-      ]
-    },
-    {
-      "name": "update_user_status",
-      "docs": [
-        "Update user status"
-      ],
-      "discriminator": [
-        4,
-        129,
-        231,
-        220,
-        216,
-        44,
-        151,
-        55
-      ],
-      "accounts": [
-        {
-          "name": "registry",
-          "writable": true
-        },
-        {
-          "name": "user_account",
-          "writable": true
-        },
-        {
-          "name": "authority",
-          "signer": true
-        }
-      ],
-      "args": [
-        {
-          "name": "new_status",
-          "type": {
-            "defined": {
-              "name": "UserStatus"
-            }
-          }
-        }
-      ]
+      "args": [],
+      "returns": "bool"
     }
   ],
   "accounts": [
-    {
-      "name": "MeterAccount",
-      "discriminator": [
-        87,
-        111,
-        139,
-        87,
-        181,
-        20,
-        104,
-        255
-      ]
-    },
-    {
-      "name": "Registry",
-      "discriminator": [
-        47,
-        174,
-        110,
-        246,
-        184,
-        182,
-        252,
-        218
-      ]
-    },
-    {
-      "name": "UserAccount",
-      "discriminator": [
-        211,
-        33,
-        136,
-        16,
-        186,
-        110,
-        242,
-        127
-      ]
-    }
+    { "name": "Registry", "discriminator": [0,0,0,0,0,0,0,0] },
+    { "name": "RegistryShard", "discriminator": [1,1,1,1,1,1,1,1] },
+    { "name": "User", "discriminator": [2,241,150,223,99,214,116,97] },
+    { "name": "Meter", "discriminator": [49,106,87,72,138,214,224,125] }
   ],
   "events": [
-    {
-      "name": "MeterBalanceSettled",
-      "discriminator": [
-        30,
-        26,
-        22,
-        204,
-        7,
-        250,
-        157,
-        33
-      ]
-    },
-    {
-      "name": "MeterDeactivated",
-      "discriminator": [
-        8,
-        89,
-        230,
-        90,
-        182,
-        214,
-        103,
-        29
-      ]
-    },
-    {
-      "name": "MeterReadingUpdated",
-      "discriminator": [
-        144,
-        152,
-        178,
-        102,
-        206,
-        190,
-        72,
-        172
-      ]
-    },
-    {
-      "name": "MeterRegistered",
-      "discriminator": [
-        148,
-        168,
-        114,
-        254,
-        79,
-        45,
-        218,
-        143
-      ]
-    },
-    {
-      "name": "MeterStatusUpdated",
-      "discriminator": [
-        175,
-        206,
-        108,
-        233,
-        120,
-        112,
-        137,
-        211
-      ]
-    },
-    {
-      "name": "OracleAuthoritySet",
-      "discriminator": [
-        36,
-        235,
-        5,
-        198,
-        13,
-        136,
-        42,
-        17
-      ]
-    },
-    {
-      "name": "RegistryInitialized",
-      "discriminator": [
-        144,
-        138,
-        62,
-        105,
-        58,
-        38,
-        100,
-        177
-      ]
-    },
-    {
-      "name": "UserRegistered",
-      "discriminator": [
-        21,
-        42,
-        216,
-        163,
-        99,
-        51,
-        200,
-        222
-      ]
-    },
-    {
-      "name": "UserStatusUpdated",
-      "discriminator": [
-        215,
-        22,
-        145,
-        98,
-        124,
-        97,
-        11,
-        160
-      ]
-    }
+    { "name": "UserRegistered", "discriminator": [0,0,0,0,0,0,0,0] },
+    { "name": "MeterRegistered", "discriminator": [1,1,1,1,1,1,1,1] },
+    { "name": "TokensMinted", "discriminator": [2,241,150,223,99,214,116,97] },
+    { "name": "MeterStatusChanged", "discriminator": [49,106,87,72,138,214,224,125] }
   ],
   "errors": [
-    {
-      "code": 6000,
-      "name": "UnauthorizedUser",
-      "msg": "Unauthorized user"
-    },
-    {
-      "code": 6001,
-      "name": "UnauthorizedAuthority",
-      "msg": "Unauthorized authority"
-    },
-    {
-      "code": 6002,
-      "name": "InvalidUserStatus",
-      "msg": "Invalid user status"
-    },
-    {
-      "code": 6003,
-      "name": "InvalidMeterStatus",
-      "msg": "Invalid meter status"
-    },
-    {
-      "code": 6004,
-      "name": "UserNotFound",
-      "msg": "User not found"
-    },
-    {
-      "code": 6005,
-      "name": "MeterNotFound",
-      "msg": "Meter not found"
-    },
-    {
-      "code": 6006,
-      "name": "NoUnsettledBalance",
-      "msg": "No unsettled balance to tokenize"
-    },
-    {
-      "code": 6007,
-      "name": "OracleNotConfigured",
-      "msg": "Oracle authority not configured"
-    },
-    {
-      "code": 6008,
-      "name": "UnauthorizedOracle",
-      "msg": "Unauthorized oracle - signer is not the configured oracle"
-    },
-    {
-      "code": 6009,
-      "name": "StaleReading",
-      "msg": "Stale reading - timestamp must be newer than last reading"
-    },
-    {
-      "code": 6010,
-      "name": "ReadingTooHigh",
-      "msg": "Reading too high - exceeds maximum delta limit"
-    },
-    {
-      "code": 6011,
-      "name": "AlreadyInactive",
-      "msg": "Meter is already inactive"
-    },
-    {
-      "code": 6012,
-      "name": "InvalidMeterId",
-      "msg": "Invalid meter ID length (max 32 bytes)"
-    }
+    { "code": 6000, "name": "InvalidShardId", "msg": "Invalid shard ID" },
+    { "code": 6001, "name": "UserAlreadyExists", "msg": "User already registered" },
+    { "code": 6002, "name": "MeterAlreadyExists", "msg": "Meter already registered" },
+    { "code": 6003, "name": "Unauthorized", "msg": "Unauthorized" },
+    { "code": 6004, "name": "InvalidMeterStatus", "msg": "Invalid meter status" },
+    { "code": 6005, "name": "UserNotFound", "msg": "User not found" },
+    { "code": 6006, "name": "MeterNotFound", "msg": "Meter not found" },
+    { "code": 6007, "name": "MintFailed", "msg": "Token minting failed" }
   ],
   "types": [
     {
-      "name": "MeterAccount",
-      "docs": [
-        "Meter account for reading updates"
-      ],
-      "serialization": "bytemuck",
-      "repr": {
-        "kind": "c"
-      },
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "meter_id",
-            "type": {
-              "array": [
-                "u8",
-                32
-              ]
-            }
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "meter_type",
-            "type": {
-              "defined": {
-                "name": "MeterType"
-              }
-            }
-          },
-          {
-            "name": "status",
-            "type": {
-              "defined": {
-                "name": "MeterStatus"
-              }
-            }
-          },
-          {
-            "name": "_padding",
-            "type": {
-              "array": [
-                "u8",
-                6
-              ]
-            }
-          },
-          {
-            "name": "registered_at",
-            "type": "i64"
-          },
-          {
-            "name": "last_reading_at",
-            "type": "i64"
-          },
-          {
-            "name": "total_generation",
-            "type": "u64"
-          },
-          {
-            "name": "total_consumption",
-            "type": "u64"
-          },
-          {
-            "name": "settled_net_generation",
-            "type": "u64"
-          },
-          {
-            "name": "claimed_erc_generation",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "MeterBalanceSettled",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "meter_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "tokens_to_mint",
-            "type": "u64"
-          },
-          {
-            "name": "total_settled",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "MeterDeactivated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "meter_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "final_generation",
-            "type": "u64"
-          },
-          {
-            "name": "final_consumption",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "MeterReadingUpdated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "meter_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "energy_generated",
-            "type": "u64"
-          },
-          {
-            "name": "energy_consumed",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "MeterRegistered",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "meter_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "meter_type",
-            "type": {
-              "defined": {
-                "name": "MeterType"
-              }
-            }
-          }
-        ]
-      }
+      "name": "UserType",
+      "type": { "kind": "enum", "variants": [
+        { "name": "Prosumer" },
+        { "name": "Consumer" },
+        { "name": "Aggregator" }
+      ]}
     },
     {
       "name": "MeterStatus",
-      "repr": {
-        "kind": "rust"
-      },
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Active"
-          },
-          {
-            "name": "Inactive"
-          },
-          {
-            "name": "Maintenance"
-          }
-        ]
-      }
-    },
-    {
-      "name": "MeterStatusUpdated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "meter_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "old_status",
-            "type": {
-              "defined": {
-                "name": "MeterStatus"
-              }
-            }
-          },
-          {
-            "name": "new_status",
-            "type": {
-              "defined": {
-                "name": "MeterStatus"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "MeterType",
-      "repr": {
-        "kind": "rust"
-      },
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Solar"
-          },
-          {
-            "name": "Wind"
-          },
-          {
-            "name": "Battery"
-          },
-          {
-            "name": "Grid"
-          }
-        ]
-      }
-    },
-    {
-      "name": "OracleAuthoritySet",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "old_oracle",
-            "type": {
-              "option": "pubkey"
-            }
-          },
-          {
-            "name": "new_oracle",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Registry",
-      "docs": [
-        "Registry account for metadata storage"
-      ],
-      "serialization": "bytemuck",
-      "repr": {
-        "kind": "c"
-      },
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "authority",
-            "type": "pubkey"
-          },
-          {
-            "name": "oracle_authority",
-            "type": "pubkey"
-          },
-          {
-            "name": "has_oracle_authority",
-            "type": "u8"
-          },
-          {
-            "name": "_padding",
-            "type": {
-              "array": [
-                "u8",
-                7
-              ]
-            }
-          },
-          {
-            "name": "user_count",
-            "type": "u64"
-          },
-          {
-            "name": "meter_count",
-            "type": "u64"
-          },
-          {
-            "name": "active_meter_count",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RegistryInitialized",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "authority",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "UserAccount",
-      "docs": [
-        "User account for frequent lookups"
-      ],
-      "serialization": "bytemuck",
-      "repr": {
-        "kind": "c"
-      },
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "authority",
-            "type": "pubkey"
-          },
-          {
-            "name": "user_type",
-            "type": {
-              "defined": {
-                "name": "UserType"
-              }
-            }
-          },
-          {
-            "name": "_padding1",
-            "type": {
-              "array": [
-                "u8",
-                3
-              ]
-            }
-          },
-          {
-            "name": "lat_e7",
-            "type": "i32"
-          },
-          {
-            "name": "long_e7",
-            "type": "i32"
-          },
-          {
-            "name": "_padding2",
-            "type": {
-              "array": [
-                "u8",
-                4
-              ]
-            }
-          },
-          {
-            "name": "h3_index",
-            "type": "u64"
-          },
-          {
-            "name": "status",
-            "type": {
-              "defined": {
-                "name": "UserStatus"
-              }
-            }
-          },
-          {
-            "name": "_padding3",
-            "type": {
-              "array": [
-                "u8",
-                7
-              ]
-            }
-          },
-          {
-            "name": "registered_at",
-            "type": "i64"
-          },
-          {
-            "name": "meter_count",
-            "type": "u32"
-          },
-          {
-            "name": "_padding4",
-            "type": {
-              "array": [
-                "u8",
-                4
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "UserRegistered",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "user",
-            "type": "pubkey"
-          },
-          {
-            "name": "user_type",
-            "type": {
-              "defined": {
-                "name": "UserType"
-              }
-            }
-          },
-          {
-            "name": "lat_e7",
-            "type": "i32"
-          },
-          {
-            "name": "long_e7",
-            "type": "i32"
-          },
-          {
-            "name": "h3_index",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "UserStatus",
-      "repr": {
-        "kind": "rust"
-      },
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Active"
-          },
-          {
-            "name": "Suspended"
-          },
-          {
-            "name": "Inactive"
-          }
-        ]
-      }
-    },
-    {
-      "name": "UserStatusUpdated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "user",
-            "type": "pubkey"
-          },
-          {
-            "name": "old_status",
-            "type": {
-              "defined": {
-                "name": "UserStatus"
-              }
-            }
-          },
-          {
-            "name": "new_status",
-            "type": {
-              "defined": {
-                "name": "UserStatus"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "UserType",
-      "repr": {
-        "kind": "rust"
-      },
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Prosumer"
-          },
-          {
-            "name": "Consumer"
-          }
-        ]
-      }
+      "type": { "kind": "enum", "variants": [
+        { "name": "Active" },
+        { "name": "Inactive" },
+        { "name": "Maintenance" }
+      ]}
     }
   ]
 }

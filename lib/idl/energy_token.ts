@@ -1,0 +1,215 @@
+/**
+ * Auto-generated TypeScript types for Energy Token program
+ * Generated from lib/idl/energy_token.json
+ */
+
+import { Idl } from "@coral-xyz/anchor";
+import { PublicKey } from "@solana/web3.js";
+
+export type EnergyToken = typeof IDL;
+export const IDL: Idl = {
+  address: "B9LnEVqqz8ZVgZ4zELtxXYozXQbm1eo1KD2x3rAMMcTH",
+  metadata: { name: "energy_token", version: "0.1.1", spec: "0.1.0" },
+  instructions: [
+    {
+      name: "initialize",
+      discriminator: [0, 0, 0, 0, 0, 0, 0, 0],
+      accounts: [],
+      args: [],
+    },
+    {
+      name: "initialize_dual_token",
+      discriminator: [249, 235, 37, 193, 156, 61, 10, 51],
+      accounts: [
+        { name: "token_config", writable: true, signer: false },
+        { name: "grid_mint", writable: true, signer: false },
+        { name: "grx_mint", writable: true, signer: false },
+        { name: "grx_vault", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+        { name: "system_program", writable: false, signer: false },
+        { name: "token_program", writable: false, signer: false },
+        { name: "associated_token_program", writable: false, signer: false },
+        { name: "rent", writable: false, signer: false },
+      ],
+      args: [
+        { name: "registry_program_id", type: "pubkey" },
+        { name: "registry_authority", type: "pubkey" },
+      ],
+    },
+    {
+      name: "mint_grid",
+      discriminator: [69, 164, 218, 155, 126, 174, 204, 212],
+      accounts: [
+        { name: "token_config", writable: false, signer: false },
+        { name: "grid_mint", writable: true, signer: false },
+        { name: "destination", writable: true, signer: false },
+        { name: "registry", writable: false, signer: false },
+        { name: "token_program", writable: false, signer: false },
+      ],
+      args: [
+        { name: "amount", type: "u64" },
+        { name: "meter_address", type: "pubkey" },
+      ],
+    },
+    {
+      name: "swap_grid_to_grx",
+      discriminator: [14, 208, 227, 213, 16, 47, 104, 16],
+      accounts: [
+        { name: "token_config", writable: true, signer: false },
+        { name: "grid_mint", writable: true, signer: false },
+        { name: "grx_mint", writable: true, signer: false },
+        { name: "user_grid_ata", writable: true, signer: false },
+        { name: "user_grx_ata", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+        { name: "token_program", writable: false, signer: false },
+      ],
+      args: [{ name: "grid_amount", type: "u64" }],
+    },
+    {
+      name: "burn_grx",
+      discriminator: [24, 182, 100, 26, 89, 135, 140, 73],
+      accounts: [
+        { name: "token_config", writable: true, signer: false },
+        { name: "grx_mint", writable: true, signer: false },
+        { name: "user_grx_ata", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+        { name: "token_program", writable: false, signer: false },
+      ],
+      args: [
+        { name: "amount", type: "u64" },
+        { name: "ai_provider", type: { option: "string" } },
+      ],
+    },
+    {
+      name: "transfer_grid",
+      discriminator: [15, 70, 151, 203, 165, 23, 172, 74],
+      accounts: [
+        { name: "token_config", writable: false, signer: false },
+        { name: "grid_mint", writable: false, signer: false },
+        { name: "source", writable: true, signer: false },
+        { name: "destination", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+        { name: "token_program", writable: false, signer: false },
+      ],
+      args: [{ name: "amount", type: "u64" }],
+    },
+    {
+      name: "transfer_grx",
+      discriminator: [122, 173, 202, 110, 255, 9, 211, 139],
+      accounts: [
+        { name: "token_config", writable: false, signer: false },
+        { name: "grx_mint", writable: false, signer: false },
+        { name: "source", writable: true, signer: false },
+        { name: "destination", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+        { name: "token_program", writable: false, signer: false },
+      ],
+      args: [{ name: "amount", type: "u64" }],
+    },
+    {
+      name: "create_grx_metadata",
+      discriminator: [118, 99, 4, 165, 178, 173, 145, 78],
+      accounts: [
+        { name: "grx_mint", writable: false, signer: false },
+        { name: "token_config", writable: false, signer: false },
+        { name: "metadata", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+        { name: "payer", writable: true, signer: true },
+        { name: "system_program", writable: false, signer: false },
+        { name: "token_program", writable: false, signer: false },
+        { name: "metadata_program", writable: false, signer: false },
+        { name: "rent", writable: false, signer: false },
+      ],
+      args: [],
+    },
+    {
+      name: "sync_supplies",
+      discriminator: [81, 183, 198, 187, 154, 187, 51, 145],
+      accounts: [
+        { name: "token_config", writable: true, signer: false },
+        { name: "authority", writable: true, signer: true },
+      ],
+      args: [],
+    },
+  ],
+  accounts: [
+    {
+      name: "TokenConfig",
+      discriminator: [0, 0, 0, 0, 0, 0, 0, 0],
+    },
+  ],
+  events: [
+    { name: "GridTokensMinted", discriminator: [0, 0, 0, 0, 0, 0, 0, 0] },
+    { name: "GridSwappedToGrx", discriminator: [249, 235, 37, 193, 156, 61, 10, 51] },
+    { name: "GrxBurned", discriminator: [69, 164, 218, 155, 126, 174, 204, 212] },
+    { name: "SuppliesSynced", discriminator: [14, 208, 227, 213, 16, 47, 104, 16] },
+  ],
+  errors: [
+    { code: 6000, name: "InvalidAmount", msg: "Invalid amount" },
+    { code: 6001, name: "InsufficientBalance", msg: "Insufficient balance" },
+    { code: 6002, name: "InvalidTokenAccount", msg: "Invalid token account" },
+    { code: 6003, name: "Unauthorized", msg: "Unauthorized" },
+    { code: 6004, name: "SwapRateLimit", msg: "Swap rate limit exceeded" },
+    { code: 6005, name: "MinimumSwap", msg: "Below minimum swap amount" },
+    { code: 6006, name: "MintFailed", msg: "Mint operation failed" },
+    { code: 6007, name: "BurnFailed", msg: "Burn operation failed" },
+  ],
+  types: [
+    {
+      name: "TokenConfig",
+      type: {
+        kind: "struct",
+        fields: [
+          { name: "authority", type: "pubkey" },
+          { name: "grid_mint", type: "pubkey" },
+          { name: "grx_mint", type: "pubkey" },
+          { name: "registry_program_id", type: "pubkey" },
+          { name: "registry_authority", type: "pubkey" },
+          { name: "total_grid_minted", type: "u64" },
+          { name: "total_grx_burned", type: "u64" },
+          { name: "total_swaps", type: "u64" },
+          { name: "initialized", type: "bool" },
+        ],
+      },
+    },
+  ],
+} as const;
+
+// ── Account Types ──────────────────────────────────────────────────────────
+export interface TokenConfigAccount {
+  authority: PublicKey;
+  gridMint: PublicKey;
+  grxMint: PublicKey;
+  registryProgramId: PublicKey;
+  registryAuthority: PublicKey;
+  totalGridMinted: bigint;
+  totalGrxBurned: bigint;
+  totalSwaps: bigint;
+  initialized: boolean;
+}
+
+// ── PDA Helpers ────────────────────────────────────────────────────────────
+export const ENERGY_TOKEN_PROGRAM_ID = new PublicKey(
+  "B9LnEVqqz8ZVgZ4zELtxXYozXQbm1eo1KD2x3rAMMcTH"
+);
+
+export function getTokenConfigPda(): [PublicKey, number] {
+  return PublicKey.findProgramAddressSync(
+    [Buffer.from("token_config")],
+    ENERGY_TOKEN_PROGRAM_ID
+  );
+}
+
+export function getGridMintPda(): [PublicKey, number] {
+  return PublicKey.findProgramAddressSync(
+    [Buffer.from("grid_mint")],
+    ENERGY_TOKEN_PROGRAM_ID
+  );
+}
+
+export function getGrxMintPda(): [PublicKey, number] {
+  return PublicKey.findProgramAddressSync(
+    [Buffer.from("grx_mint")],
+    ENERGY_TOKEN_PROGRAM_ID
+  );
+}
